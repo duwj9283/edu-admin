@@ -1,0 +1,13 @@
+flash尺寸：350*380
+参数说明:
+flashvars.max_size = "100";  //unit: KB //图片文件大小
+flashvars.width = "300"; //要裁剪宽
+flashvars.height = "200";//要裁剪高
+flashvars.uploadUrl = "http://www.iemaker.com/person/user/omavatar_upload?cid=asdf&gid=sdafsdf";//上传地址
+flashvars.backcall = "omavatar_ok";//回调JS函数。上传完成将返回信息直接返回给JS
+flashvars.cancelbackcall = "btn_cancel";//取消时js回调函数
+
+flashMessage(msg)
+{
+	alert(msg);
+}

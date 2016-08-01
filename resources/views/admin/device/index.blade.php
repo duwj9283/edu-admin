@@ -93,8 +93,8 @@
 						<label class="col-sm-2 control-label">状态</label>
 						<div class="col-sm-5">
 							<select name="status" class="form-control"  required="">
-								<option value="false" <%if type=='false'%> selected <%/if%> >在线</option>
-								<option value="true" <%if type=='true'%> selected <%/if%>>离线</option>
+								<option value="true" <%if status=='true'%> selected <%/if%> >在线</option>
+								<option value="false" <%if status=='false'%> selected <%/if%>>离线</option>
 							</select>
 						</div>
 					</div>

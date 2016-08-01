@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -12,7 +10,7 @@ return [
     | default location for this type of information, allowing packages
     | to have a conventional place to find your various credentials.
     |
-    */
+     */
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -24,24 +22,29 @@ return [
     ],
 
     'ses' => [
-        'key'    => env('SES_KEY'),
+        'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
         'region' => 'us-east-1',
     ],
 
     'stripe' => [
-        'model'  => App\User::class,
-        'key'    => env('STRIPE_KEY'),
+        'model' => App\User::class,
+        'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    /**
+     * 前台项目上传目录及访问路径
+     */
+    'frontend' => [
+        'upload_url' => 'http://localhost:81/upload',
+        'upload_path' => 'd:/wwwroot/omeeting/ahedu/www/public/upload',
+    ],
     /**
      * 网络视频流支持服务
      */
     'vs2_serv' => [
-        'host' => '192.168.1.32',
-        'port' => 1935,
-        'app_name' => 'live',
+        'host' => 'lubo.iemaker.cn',
+        'port' => 1998,
+        'app_name' => 'myapp',
     ],
-
 ];

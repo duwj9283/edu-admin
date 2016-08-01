@@ -50,6 +50,9 @@
                     <li rel="siteconfig">
                         <a href="{{url('admin/sitecfg/meta-set')}}">站点配置</a>
                     </li>
+                    <li rel="apps">
+                        <a href="{{url('admin/mkapp')}}">应用管理</a>
+                    </li>
                 </ul>
             </li>
             @endif

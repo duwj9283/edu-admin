@@ -110,7 +110,6 @@
                     </li>
                 </ul>
             </li>
-<<<<<<< HEAD
             @if($user->can('devices'))
                     <!--设备管理-->
                 <li rel="devices">
@@ -147,8 +146,7 @@
                     </li>
                 </ul>
             </li>
-=======
->>>>>>> 3f5bc57f1bb5751c2e394ead577112c5241fcb87
+
         </ul>
     </div>
 </nav>

@@ -84,11 +84,21 @@
                     </a>
                 </li>
             @endif
+
+            @if($user->can('teacher'))
             <li rel="webuser">
                 <a href="{{url('admin/webuser/teacher')}}"> <i class="fa fa-graduation-cap"></i>
                     <span class="nav-label">教师账号管理</span>
                 </a>
             </li>
+            @endif
+            @if($user->can('student'))
+            <li rel="webuser-s">
+                <a href="{{url('admin/webuser/student')}}"> <i class="fa fa-graduation-cap"></i>
+                    <span class="nav-label">学生账号管理</span>
+                </a>
+            </li>
+            @endif
             <li rel="message">
                 <a href="javascript:;">
                     <i class="fa fa-envelope"></i>

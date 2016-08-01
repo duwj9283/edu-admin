@@ -70,9 +70,9 @@
 						<label class="col-sm-2 control-label">设备</label>
 						<div class="col-sm-5">
 							<select name="device_id" class="form-control"  required="" >
-								<%if device.lenght >0%>
+								<%if device.length >0%>
 									<% each device as item %>
-									<option value="<%item.id%>" <%if item.id==detail.device_id %> selected<%/if%>><%item.title%></option>
+									<option value="<%item.id%>" <%if item.id==device_id %> selected<%/if%>><%item.title%></option>
 									<%/each%>
 								<%else%>
 								<option value="0">请先添加设备</option>
@@ -116,7 +116,7 @@
 		var id = $(this).parents('tr').eq(0).data('id');
 		for(i in list.data){
 			if(list.data[i].id==id){
-				$("#myEditModal").html(template('tplEditPannel',{title:list.data[i].title,id:list.data[i].id,device:device})).modal('show');
+				$("#myEditModal").html(template('tplEditPannel',{title:list.data[i].title,id:list.data[i].id,device_id:list.data[i].device_id,device:device})).modal('show');
 				break;
 			}
 		}

@@ -36,8 +36,8 @@ return [
      * 前台项目访问路径及站点主目录
      */
     'frontend' => [
-        'url' => env('FRONTEND_URL', 'http://localhost:81/'),
-        'path' => env('FRONTEND_PATH', 'd:/wwwroot/omeeting/ahedu/www/public/'),
+        'url' => env('FRONTEND_URL', 'http://lubo.iemaker.cn/'),
+        'path' => env('FRONTEND_PATH', '/home/debian/www/lubov2/'),
     ],
     /**
      * 网络视频流支持服务

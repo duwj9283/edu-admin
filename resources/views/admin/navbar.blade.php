@@ -107,6 +107,27 @@
                     </li>
                 </ul>
             </li>
+            @if($user->can('devices'))
+                    <!--设备管理-->
+                <li rel="devices">
+                    <a href="javascript:;">
+                        <i class="fa fa-video-camera"></i>
+                        <span class="nav-label">编码器设备管理</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li rel="1">
+                            <a href="{{url('admin/device')}}">设备管理</a>
+                        </li>
+                        <li rel="2">
+                            <a href="{{url('admin/device/classroom')}}">教室管理</a>
+                        </li>
+
+                        </li>
+                    </ul>
+                </li>
+
+            @endif
             <li rel="profile">
                 <a href="javascript:;">
                     <i class="fa fa-user"></i>

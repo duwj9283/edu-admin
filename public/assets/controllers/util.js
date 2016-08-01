@@ -14,7 +14,8 @@ var failure = function(data) {
   var str = typeof(data) == 'string' ? data : data.responseJSON;
   dialog({
     content: '<i class="fa fa-info-circle"></i> ' + str,
-    ok: true
+    ok: true,
+    zIndex: 2100
   }).showModal();
   return false;
 };

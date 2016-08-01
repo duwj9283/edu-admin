@@ -11,17 +11,19 @@ Route::group(['prefix' => 'admin'], function () {
     Route::controllers([
         'entrust' => 'Admin\EntrustController', // RBAC
         'profile' => 'Admin\ProfileController', // 个人资料管理
-        'subject'=> 'Admin\SubjectController',  //学科管理
-        'capacity'=> 'Admin\CapacityController',  //容量申请管理
-        'file'=> 'Admin\FileController',  //容量申请管理
-        'apptype'=> 'Admin\AppTypeController',  //应用类型管理
-        'webuser'=> 'Admin\WebUserController',    //教师用户管理
+        'subject' => 'Admin\SubjectController', //学科管理
+        'capacity' => 'Admin\CapacityController', //容量申请管理
+        'file' => 'Admin\FileController', //容量申请管理
+        'apptype' => 'Admin\AppTypeController', //应用类型管理
+        'webuser' => 'Admin\WebUserController', //教师用户管理
         'message' => 'Admin\MessageController', // 消息管理
+<<<<<<< HEAD
         'device' => 'Admin\DeviceController',//编码器设备管理
 
+=======
+        'sitecfg' => 'Admin\SiteconfigController', //站点配置
+>>>>>>> 3f5bc57f1bb5751c2e394ead577112c5241fcb87
     ]);
-
-
 });
 
 Route::group(['prefix' => 'api'], function () {

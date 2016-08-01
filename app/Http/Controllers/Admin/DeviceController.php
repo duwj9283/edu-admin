@@ -147,7 +147,6 @@ class DeviceController extends Controller
      * 教室轮询-得到具体设备
      */
     public function getClassroomViewDevice(Request $request){
-
         $id = $request->input('id');
         $detail = Device::find($id);
         return $this->response($detail);

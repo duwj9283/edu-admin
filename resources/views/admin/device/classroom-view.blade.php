@@ -13,7 +13,7 @@
                         <table id="tblDataList" class="table table-hover">
 
                             @foreach($rows as $key=>$row)
-                                <tr data-id="{{$row->id}}">
+                                <tr data-id="{{$row->device_id}}">
                                     <td>{{$key+1}}.{{$row->title}}</td>
 
                                 </tr>
@@ -109,7 +109,7 @@
             var xiSwfUrlStr = "{{asset('assets/swfobject/expressInstall.swf')}}";
             var flashvars = {
                 "log": "all",
-                "url": 'rtmp://' + c.ip + ':' + vs2_serv.port + '/' + vs2_serv.app_name + '',
+                "url": 'rtmp://' + c.ip + ':1935/live',
                 "streamname": c.stream_name,
                 "buffer": 0.1
             };
@@ -120,8 +120,9 @@
             var id = $(this).data('id');
             $(this).addClass('hoverTr').siblings('tr').removeClass('hoverTr');
             $.get('/admin/device/classroom-view-device', {id: id}, function (data) {
+               
                 createStreamPlayer({
-                    ip: data.ip,
+                    ip: '192.168.1.98',
                     stream_name: 'stream5',
                     preview: '/assets/previewVideo.swf',
                     id: 'j-flashArea-player'

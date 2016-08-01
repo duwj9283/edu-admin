@@ -47,6 +47,9 @@
                     <li rel="permission">
                         <a href="{{url('admin/entrust/perm-list')}}">权限管理</a>
                     </li>
+                    <li rel="siteconfig">
+                        <a href="{{url('admin/sitecfg/meta-set')}}">站点配置</a>
+                    </li>
                 </ul>
             </li>
             @endif
@@ -104,21 +107,6 @@
                     </li>
                     <li rel="msg_trash">
                         <a href="{{url('admin/message/trash')}}">垃圾箱</a>
-                    </li>
-                </ul>
-            </li>
-            <li rel="profile">
-                <a href="javascript:;">
-                    <i class="fa fa-user"></i>
-                    <span class="nav-label">个人管理</span>
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li rel="1">
-                        <a href="{{url('admin/profile')}}">基本资料</a>
-                    </li>
-                    <li rel="2">
-                        <a href="{{url('admin/profile/changepwd')}}">修改密码</a>
                     </li>
                 </ul>
             </li>

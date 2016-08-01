@@ -10,6 +10,9 @@
       <li>
         <a href="#tab-meta" data-toggle="tab">Meta设置</a>
       </li>
+      <li>
+        <a href="#tab-banner" data-toggle="tab">Banner图</a>
+      </li>
     </ul>
     <div class="tab-content">
       <div id="tab-logo" class="tab-pane active">
@@ -42,13 +45,40 @@
           </form>
         </div>
       </div>
+      <div id="tab-banner" class="tab-pane">
+        <div class="panel-body row">
+          <div class="col-lg-6">
+            <div id="bannerPicker">选择图片</div>
+            <ul id="banner-list" class="list-unstyled">
+              @foreach($banners as $ban)
+              <li>
+                <button class="btn btn-danger" onclick="removeBanner('{{$ban}}')"><i class="fa fa-trash"></i> 删除此图片</button>
+                <p><img src="{{$frontend['url'] . $ban}}" class="img-thumbnail img-responsive" /></p>
+              </li>
+              @endforeach
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script id="tplBannerListTr" type="text/html">
+  <li>
+    <button class="btn btn-danger" onclick="removeBanner('<%url%>')"><i class="fa fa-trash"></i> 删除此图片</button>
+    <p><img src="{{$frontend['url']}}<%url%>" class="img-thumbnail img-responsive" /></p>
+  </li>
+</script>
 @endsection
 
 @section('pageheader')
 <link href="{{cdn1('assets/WebUploader/webuploader.css')}}" rel="stylesheet" />
+<style>
+#banner-list li{position:relative;}
+#banner-list li button{position:absolute;left:10px;top:10px;display:none;}
+#banner-list li:hover > button{display:block;}
+</style>
 @endsection
 
 @section('pagescript')
@@ -100,6 +130,51 @@
       return;
     }
     $("#imgLogo").attr("src", result.url);
+  });
+
+  var bannerUploader;
+  var bannerUploaderInit = function(){
+    bannerUploader = WebUploader.create({
+      auto: true,
+      swf: '/assets/WebUploader/Uploader.swf',
+      server: "{{url('admin/sitecfg/upload-banner')}}",
+      formData: {},
+      pick: '#bannerPicker',
+      accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+      }
+    });
+    bannerUploader.on("uploadSuccess", function(file, result){
+      if(result.status == "0"){
+        failure(result.msg);
+        return;
+      }
+      $("#banner-list").append(template("tplBannerListTr", result));
+    });
+  };
+
+  var removeBanner = function(src){
+    var obj = event.target;
+    dialog({
+      content:'<i class="fa fa-info-circle"></i> 确定要删除此图片吗？',
+      ok:function(){
+        $.post("{{url('admin/sitecfg/remove-banner')}}", {"src":src}, function(){
+          $(obj).parents("li").remove();
+        }).fail(failure);
+      },
+      cancel: true
+    }).showModal();
+  };
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
+    var target = e.target.toString();
+    if(target.indexOf('tab-banner') > 0){
+      if(bannerUploader == undefined){
+        bannerUploaderInit();
+      }
+    }
   });
 </script>
 @endsection

@@ -12,6 +12,9 @@ class SiteconfigController extends Controller
         $this->middleware('grant:system');
     }
 
+    /**
+     * 进入站点配置页面
+     */
     public function getMetaSet()
     {
         $meta = [];
@@ -21,16 +24,34 @@ class SiteconfigController extends Controller
         }
         $data['meta'] = $meta;
 
+        // 前台项目路径
+        $frontend = config('services.frontend');
+        $data['frontend'] = $frontend;
+
+        // logo图片
         $logo = Siteconfig::where('option_name', 'site_logo')->pluck('option_value');
         if (empty($logo)) {
             $logo = 'upload/logo.png';
         }
-        $frontend = config('services.frontend');
         $data['logo'] = $frontend['url'] . $logo;
+
+        // Banner 图
+        $ban = Siteconfig::where('option_name', 'site_banner')->first();
+        if (empty($ban)) {
+            $ban = new Siteconfig;
+            $ban->option_title = 'Banner图';
+            $ban->option_name = 'site_banner';
+            $ban->option_value = '';
+            $ban->save();
+        }
+        $data['banners'] = arrayTrim(explode('|', $ban->option_value));
 
         return view('admin/siteconfig/meta-set', $data);
     }
 
+    /**
+     * 修改 meta 设置
+     */
     public function postSetMeta(Request $request)
     {
         $rows = Siteconfig::where('option_name', 'LIKE', 'meta_%')->get();
@@ -43,6 +64,9 @@ class SiteconfigController extends Controller
         return $this->response('ok');
     }
 
+    /**
+     * 上传 logo 图片
+     */
     public function postUploadLogo(Request $request)
     {
         $file = $_FILES['file'];
@@ -78,5 +102,64 @@ class SiteconfigController extends Controller
 
         $result = ['status' => 1, 'url' => $frontend['url'] . $new_file];
         return $this->response($result);
+    }
+
+    /**
+     * 上传一张Banner图
+     */
+    public function postUploadBanner(Request $request)
+    {
+        $file = $_FILES['file'];
+        $fileTypes = ['jpg', 'jpeg', 'gif', 'png'];
+        $file_ext = strtolower(pathinfo($file['name'])['extension']);
+        if (!in_array($file_ext, $fileTypes)) {
+            $result = ['status' => 0, 'msg' => '无效的图片格式'];
+            return $this->response($result);
+        }
+
+        $frontend = config('services.frontend');
+        $target_path = 'upload/banner/';
+        $targetPath = $frontend['path'] . $target_path;
+        if (!is_dir($targetPath)) {
+            if (!mkdir($targetPath, 0777, 1)) {
+                $result = ['status' => 0, 'msg' => '无法建立上传目录'];
+                return $this->response($result);
+            }
+        }
+        $new_filename = uniqid(mt_rand()) . '.' . $file_ext;
+        $result = move_uploaded_file($file['tmp_name'], $targetPath . $new_filename);
+        if ($result === false) {
+            $result = ['status' => 0, 'msg' => '保存文件失败'];
+            return $this->response($result);
+        }
+
+        $new_file = $target_path . $new_filename;
+        $row = Siteconfig::where('option_name', 'site_banner')->first();
+        $data = arrayTrim(explode('|', $row->option_value));
+        array_push($data, $new_file);
+        $row->option_value = implode('|', $data);
+        $row->save();
+
+        $result = ['status' => 1, 'url' => $new_file];
+        return $this->response($result);
+    }
+
+    /**
+     * 删除一个Banner图
+     */
+    public function postRemoveBanner(Request $request)
+    {
+        $src = strval($request->input('src'));
+        $row = Siteconfig::where('option_name', 'site_banner')->first();
+        $banners = arrayTrim(explode('|', $row->option_value));
+        foreach ($banners as $key => $val) {
+            if ($val == $src) {
+                unset($banners[$key]);
+            }
+        }
+        $banner = implode('|', $banners);
+        $row->option_value = $banner;
+        $row->save();
+        return $this->response('ok');
     }
 }

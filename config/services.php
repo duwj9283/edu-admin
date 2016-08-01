@@ -37,7 +37,7 @@ return [
      */
     'frontend' => [
         'url' => env('FRONTEND_URL', 'http://lubo.iemaker.cn/'),
-        'path' => env('FRONTEND_PATH', '/home/debian/www/lubov2/'),
+        'path' => env('FRONTEND_PATH', '/home/debian/www/lubov2/public/'),
     ],
     /**
      * 网络视频流支持服务

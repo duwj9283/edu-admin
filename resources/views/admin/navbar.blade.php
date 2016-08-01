@@ -118,7 +118,7 @@
                 <li rel="devices">
                     <a href="javascript:;">
                         <i class="fa fa-video-camera"></i>
-                        <span class="nav-label">编码器设备管理</span>
+                        <span class="nav-label">录播教室管理</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
@@ -139,7 +139,7 @@
             <li rel="classroom">
                 <a href="{{url('admin/device/classroom-view')}}">
                     <i class="fa fa-video-camera"></i>
-                    <span class="nav-label">教室轮询</span>
+                    <span class="nav-label">录播教室巡视</span>
                 </a>
 
             </li>

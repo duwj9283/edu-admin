@@ -6,7 +6,7 @@
 <div class="loginColumns animated fadeInDown">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h2 class="text-center">乐行云享</h2>
+            <h2 class="text-center">{{$title}}</h2>
             <div class="ibox-content">
                 <form id="formLogin" class="m-t" role="form" method="post" action="">
                     <div class="form-group">
@@ -43,11 +43,8 @@
     </div>
 </div>
 <footer>
-    <div class="row">
-        <div class="col-md-6">安徽魅课信息科技有限公司</div>
-        <div class="col-md-6 text-right">
-            <small>&copy; 2012-2016</small>
-        </div>
+    <div class="text-center">
+        <p>安徽乐行云享信息科技有限公司 &copy; 2016</p>
     </div>
 </footer>
 @endsection

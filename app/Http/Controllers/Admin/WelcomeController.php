@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Siteconfig;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ class WelcomeController extends Controller
         $data['dbversion'] = DB::select('SELECT VERSION() as dbversion'); //MySQL 版本
         $data['client_ip'] = $request->getClientIp();
         $data['site_protocol'] = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
+        $data['meta_title'] = Siteconfig::where('option_name', 'meta_title')->pluck('option_value');
         return view('admin/welcome', $data);
     }
 

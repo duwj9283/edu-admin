@@ -44,8 +44,7 @@ $user = App\Models\User::find($token['user_id']);
             @yield('content')
             <div class="footer">
                 <div class="pull-right">
-                    <strong>Copyright</strong>
-                    安徽乐行云享信息科技有限公司 &copy; 2014-2016
+                    安徽乐行云享信息科技有限公司 &copy; 2016
                 </div>
             </div>
         </div>

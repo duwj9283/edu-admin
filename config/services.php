@@ -32,9 +32,19 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    /**
+     * 前台项目上传目录及访问路径
+     */
     'frontend' => [
         'upload_url' => 'http://localhost:81/upload',
         'upload_path' => 'd:/wwwroot/omeeting/ahedu/www/public/upload',
+    ],
+    /**
+     * 网络视频流支持服务
+     */
+    'vs2_serv' => [
+        'host' => 'lubo.iemaker.cn',
+        'port' => 1998,
+        'app_name' => 'myapp',
     ],
 ];

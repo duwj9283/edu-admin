@@ -17,7 +17,12 @@ Route::group(['prefix' => 'admin'], function () {
         'apptype' => 'Admin\AppTypeController', //应用类型管理
         'webuser' => 'Admin\WebUserController', //教师用户管理
         'message' => 'Admin\MessageController', // 消息管理
+
+        'device' => 'Admin\DeviceController',//编码器设备管理
+
+
         'sitecfg' => 'Admin\SiteconfigController', //站点配置
+
     ]);
 });
 

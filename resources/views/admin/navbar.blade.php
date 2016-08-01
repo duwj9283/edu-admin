@@ -84,11 +84,21 @@
                     </a>
                 </li>
             @endif
+
+            @if($user->can('teacher'))
             <li rel="webuser">
                 <a href="{{url('admin/webuser/teacher')}}"> <i class="fa fa-graduation-cap"></i>
                     <span class="nav-label">教师账号管理</span>
                 </a>
             </li>
+            @endif
+            @if($user->can('student'))
+            <li rel="webuser-s">
+                <a href="{{url('admin/webuser/student')}}"> <i class="fa fa-graduation-cap"></i>
+                    <span class="nav-label">学生账号管理</span>
+                </a>
+            </li>
+            @endif
             <li rel="message">
                 <a href="javascript:;">
                     <i class="fa fa-envelope"></i>
@@ -118,7 +128,7 @@
                 <li rel="devices">
                     <a href="javascript:;">
                         <i class="fa fa-video-camera"></i>
-                        <span class="nav-label">编码器设备管理</span>
+                        <span class="nav-label">录播教室管理</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
@@ -139,7 +149,7 @@
             <li rel="classroom">
                 <a href="{{url('admin/device/classroom-view')}}">
                     <i class="fa fa-video-camera"></i>
-                    <span class="nav-label">教室轮询</span>
+                    <span class="nav-label">录播教室巡视</span>
                 </a>
 
             </li>

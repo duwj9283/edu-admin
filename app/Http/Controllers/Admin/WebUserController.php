@@ -221,4 +221,39 @@ class WebUserController extends Controller
     }
     /*************************************后台教师账号管理-E*********************************************/
 
+
+    /*************************************后台学生账号管理-S*********************************************/
+    /**
+     * 学生账号管理
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getStudent(Request $request)
+    {
+        $data['roles']=WebUserRole::lists('role_name','id');
+        $data['lists']=WebUser::leftJoin('edu_user_info as ui','ui.uid','=','edu_user.uid')
+            ->where('edu_user.role_id',1)//1学生 2教师 3	学科管理员
+            ->select('edu_user.username','edu_user.phone','edu_user.role_id','edu_user.disable','ui.*')
+            ->orderBy('edu_user.uid')->paginate(20);//得到所有list
+        return view('admin.web-user.student',$data);
+    }
+
+    public function getPwd(Request $request)
+    {
+        $data['id']=$request->input('id');
+        return view('admin.web-user.student-pwd',$data);
+    }
+
+    /**
+     * 学生账号重置密码
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function postPwd(Request $request)
+    {
+        $new_pwd = $request->input('new_pwd');
+        $uid = $request->input('uid');
+        $user = WebUser::where('uid',$uid);
+        return $this->response(true);
+    }
 }

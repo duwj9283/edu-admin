@@ -33,11 +33,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     /**
-     * 前台项目上传目录及访问路径
+     * 前台项目访问路径及站点主目录
      */
     'frontend' => [
-        'upload_url' => env('UPLOAD_URL', 'http://localhost:81/upload'),
-        'upload_path' => env('UPLOAD_PATH', 'd:/wwwroot/omeeting/ahedu/www/public/upload'),
+        'url' => env('FRONTEND_URL', 'http://localhost:81/'),
+        'path' => env('FRONTEND_PATH', 'd:/wwwroot/omeeting/ahedu/www/public/'),
     ],
     /**
      * 网络视频流支持服务

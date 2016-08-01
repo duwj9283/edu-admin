@@ -23,10 +23,10 @@ class SiteconfigController extends Controller
 
         $logo = Siteconfig::where('option_name', 'site_logo')->pluck('option_value');
         if (empty($logo)) {
-            $frontend = config('services.frontend');
-            $logo = $frontend['upload_url'] . '/' . 'logo.png';
+            $logo = 'upload/logo.png';
         }
-        $data['logo'] = $logo;
+        $frontend = config('services.frontend');
+        $data['logo'] = $frontend['url'] . $logo;
 
         return view('admin/siteconfig/meta-set', $data);
     }
@@ -54,8 +54,8 @@ class SiteconfigController extends Controller
         }
 
         $frontend = config('services.frontend');
-        $target_path = 'logo/';
-        $targetPath = $frontend['upload_path'] . '/' . $target_path;
+        $target_path = 'upload/logo/';
+        $targetPath = $frontend['path'] . $target_path;
         if (!is_dir($targetPath)) {
             if (!mkdir($targetPath, 0777, 1)) {
                 $result = ['status' => 0, 'msg' => '无法建立上传目录'];
@@ -69,14 +69,14 @@ class SiteconfigController extends Controller
             return $this->response($result);
         }
 
-        $new_file = $frontend['upload_url'] . '/' . $target_path . $new_filename;
+        $new_file = $target_path . $new_filename;
         $row = Siteconfig::where('option_name', 'site_logo')->first();
         if (!empty($row)) {
             $row->option_value = $new_file;
             $row->save();
         }
 
-        $result = ['status' => 1, 'url' => $new_file];
+        $result = ['status' => 1, 'url' => $frontend['url'] . $new_file];
         return $this->response($result);
     }
 }

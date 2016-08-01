@@ -153,31 +153,18 @@
 		}
 	});
 
+	var createStreamPlayer = function (c) {
+		var xiSwfUrlStr = "{{asset('assets/swfobject/expressInstall.swf')}}";
+		var flashvars = {
+			"log": "all",
+			"url": 'rtmp://' + vs2_serv.host + ':' + vs2_serv.port + '/' + vs2_serv.app_name + '',
+			"streamname": c.stream_name,
+			"buffer": 0.1
+		};
+		swfobject.embedSWF("/assets/previewVideo.swf", 'j-flashArea-player', "100%", "100%", "10.1.0", xiSwfUrlStr, flashvars);
+	};
 
 
-	var createStreamPlayer = function(c){
-		var swfVersionStr = "12.0.0";
-		// To use express install, set to playerProductInstall.swf, otherwise the empty string.
-		var xiSwfUrlStr = "playerProductInstall.swf";
-		var flashvars = {};
-		flashvars.url = 'rtmp://'+vs2_serv.host+':'+vs2_serv.port+'/'+vs2_serv.app_name+'';
-		flashvars.streamname = c.stream_name;
-		var params = {};
-		params.quality = "high";
-		params.bgcolor = "#ffffff";
-		params.allowscriptaccess = "sameDomain";
-		params.allowfullscreen = "true";
-
-		var attributes = {};
-		attributes.id = "Main";
-		attributes.name = "Main";
-		attributes.align = "middle";
-		swfobject.embedSWF(
-				"/assets/videoplayerLuboPreview.swf", 'j-flashArea-player',
-				"100%", "500",
-				swfVersionStr, xiSwfUrlStr,
-				flashvars, params, attributes);
-	}
 	$('.js-add').click(function(){
 		$("#myEditModal").html(template('tplEditPannel',{type:'false'})).modal('show')
 	});

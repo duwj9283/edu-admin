@@ -131,6 +131,17 @@
                 </li>
 
             @endif
+            @if($user->can('classroom'))
+                    <!--设备管理-->
+            <li rel="classroom">
+                <a href="{{url('admin/device/classroom-view')}}">
+                    <i class="fa fa-video-camera"></i>
+                    <span class="nav-label">教室轮询</span>
+                </a>
+
+            </li>
+
+            @endif
             <li rel="profile">
                 <a href="javascript:;">
                     <i class="fa fa-user"></i>

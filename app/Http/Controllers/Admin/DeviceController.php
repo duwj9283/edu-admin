@@ -132,4 +132,28 @@ class DeviceController extends Controller
 
     /*******************************教室管理-E************************************/
 
+    /*******************************教室轮询管理-S************************************/
+    /**
+     * 教室轮询
+     */
+    public function getClassroomView(){
+
+        $data['rows'] = ClassRoom::get();
+        $data['vs2_serv'] = json_encode(config('services.vs2_serv'));
+
+        return view('admin/device/classroom-view', $data);
+    }
+    /**
+     * 教室轮询-得到具体设备
+     */
+    public function getClassroomViewDevice(Request $request){
+        $id = $request->input('id');
+        $detail = Device::find($id);
+        return $this->response($detail);
+    }
+    /*******************************教室轮询管理-E************************************/
+
+
+
+
 }

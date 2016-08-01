@@ -50,6 +50,9 @@
                     <li rel="siteconfig">
                         <a href="{{url('admin/sitecfg/meta-set')}}">站点配置</a>
                     </li>
+                    <li rel="apps">
+                        <a href="{{url('admin/mkapp')}}">应用管理</a>
+                    </li>
                 </ul>
             </li>
             @endif
@@ -129,6 +132,17 @@
                         </li>
                     </ul>
                 </li>
+
+            @endif
+            @if($user->can('classroom'))
+                    <!--设备管理-->
+            <li rel="classroom">
+                <a href="{{url('admin/device/classroom-view')}}">
+                    <i class="fa fa-video-camera"></i>
+                    <span class="nav-label">教室轮询</span>
+                </a>
+
+            </li>
 
             @endif
             <li rel="profile">

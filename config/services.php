@@ -39,9 +39,9 @@ return [
      * 网络视频流支持服务
      */
     'vs2_serv' => [
-        'host' => '192.168.1.32',
-        'port' => 1935,
-        'app_name' => 'live',
+        'host' => 'lubo.iemaker.cn',
+        'port' => 1998,
+        'app_name' => 'myapp',
     ],
 
 ];

@@ -36,8 +36,8 @@ return [
      * 前台项目上传目录及访问路径
      */
     'frontend' => [
-        'upload_url' => 'http://localhost:81/upload',
-        'upload_path' => 'd:/wwwroot/omeeting/ahedu/www/public/upload',
+        'upload_url' => env('UPLOAD_URL'),
+        'upload_path' => env('UPLOAD_PATH'),
     ],
     /**
      * 网络视频流支持服务

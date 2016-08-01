@@ -12,10 +12,6 @@ class SiteconfigController extends Controller
         $this->middleware('grant:system');
     }
 
-    public function getIndex()
-    {
-    }
-
     public function getMetaSet()
     {
         $meta = [];

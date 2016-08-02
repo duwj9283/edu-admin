@@ -141,7 +141,6 @@
                         </li>
                     </ul>
                 </li>
-
             @endif
             @if($user->can('classroom'))
             <!--设备管理-->
@@ -152,6 +151,21 @@
                 </a>
             </li>
             @endif
+            @if($user->can('tongji'))
+                <li rel="tongji">
+                    <a href="javascript:;">
+                        <i class="fa fa-video-camera"></i>
+                        <span class="nav-label">统计报表</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li rel="1">
+                            <a href="{{url('admin/tongji/users')}}">用户统计</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
         </ul>
     </div>
 </nav>

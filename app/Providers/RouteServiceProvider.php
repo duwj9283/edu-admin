@@ -24,8 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-
         parent::boot($router);
     }
 
@@ -40,8 +38,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
         });
-        foreach (glob(app_path('Http/Routes/routes.*.php')) as $file) {
-            require_once $file;
-        }
+        $router->group([], function ($router) {
+            require app_path('Http/Routes/routes.news.php');
+        });
     }
 }

@@ -44,6 +44,16 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">学科</label>
+                    <div class="col-sm-8">
+                        @foreach($subjectArr as $sub)
+                            <label class="checkbox-inline i-checks">
+                                <input type="checkbox" name="subject[]" value="{{$sub->id}}"  @if(strstr($subject,(string)($sub->id))) checked @endif >{{strstr($subject,$sub->id)}}{{$sub->subject_name}}
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <div class="col-md-4 col-md-offset-2">
@@ -57,12 +67,22 @@
 </div>
 @endsection
 
+@section('pageheader')
+    <link href="{{cdn1('assets/iCheck/custom.css')}}" rel="stylesheet">
+@endsection
 @section('pagescript')
-<script>
+    <script src="{{cdn1('assets/iCheck/icheck.min.js')}}"></script>
+
+    <script>
     $(function () {
         $("#side-menu li[rel='entrust']").addClass("active")
             .find("ul").addClass("in")
             .find("li[rel='user']").addClass("active");
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
     });
 
     seajs.use('models/entrustModel', function(entrustModel) {

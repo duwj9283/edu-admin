@@ -34,19 +34,29 @@ class SiteconfigController extends Controller
             $logo = 'upload/logo.png';
         }
         $data['logo'] = $frontend['url'] . $logo;
+        return view('admin/siteconfig/meta-set', $data);
+    }
 
-        // Banner 图
-        $ban = Siteconfig::where('option_name', 'site_banner')->first();
+    /**
+     * 获取频道 Banner 图
+     */
+    public function getBannerList(Request $request)
+    {
+        $option_name = strval($request->input('option_name'));
+        if (!in_array($option_name, ['site_banner1', 'site_banner2', 'site_banner3', 'site_banner4', 'site_banner5', 'site_banner6'])) {
+            return $this->error('无效的频道');
+        }
+
+        $ban = Siteconfig::where('option_name', $option_name)->first();
         if (empty($ban)) {
             $ban = new Siteconfig;
-            $ban->option_title = 'Banner图';
-            $ban->option_name = 'site_banner';
+            $ban->option_title = $option_name;
+            $ban->option_name = $option_name;
             $ban->option_value = '';
             $ban->save();
         }
-        $data['banners'] = arrayTrim(explode('|', $ban->option_value));
-
-        return view('admin/siteconfig/meta-set', $data);
+        $data['list'] = arrayTrim(explode('|', $ban->option_value));
+        return $this->response($data);
     }
 
     /**
@@ -109,6 +119,7 @@ class SiteconfigController extends Controller
      */
     public function postUploadBanner(Request $request)
     {
+        $option_name = strval($request->input('option_name'));
         $file = $_FILES['file'];
         $fileTypes = ['jpg', 'jpeg', 'gif', 'png'];
         $file_ext = strtolower(pathinfo($file['name'])['extension']);
@@ -134,7 +145,7 @@ class SiteconfigController extends Controller
         }
 
         $new_file = $target_path . $new_filename;
-        $row = Siteconfig::where('option_name', 'site_banner')->first();
+        $row = Siteconfig::where('option_name', $option_name)->first();
         $data = arrayTrim(explode('|', $row->option_value));
         array_push($data, $new_file);
         $row->option_value = implode('|', $data);
@@ -149,8 +160,9 @@ class SiteconfigController extends Controller
      */
     public function postRemoveBanner(Request $request)
     {
+        $option_name = strval($request->input('option_name'));
         $src = strval($request->input('src'));
-        $row = Siteconfig::where('option_name', 'site_banner')->first();
+        $row = Siteconfig::where('option_name', $option_name)->first();
         $banners = arrayTrim(explode('|', $row->option_value));
         foreach ($banners as $key => $val) {
             if ($val == $src) {

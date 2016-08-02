@@ -1,6 +1,7 @@
 <?php
 $token = session('token');
 $user = App\Models\User::find($token['user_id']);
+$meta_title = App\Models\Siteconfig::where('option_name', 'meta_title')->pluck('option_value');
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@ $user = App\Models\User::find($token['user_id']);
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li class="m-r">
-                            <a href="{{url('/')}}" target="_blank"> <i class="fa fa-home"></i>网站首页</a>
+                            <a href="{{config('services.frontend')['url']}}" target="_blank"> <i class="fa fa-home"></i>网站首页</a>
                         </li>
                         <li>
                             <a href="{{url('admin/logout')}}" onclick="return confirm('您确定要退出吗？');"> <i class="fa fa-sign-out"></i>退出</a>
@@ -44,7 +45,7 @@ $user = App\Models\User::find($token['user_id']);
             @yield('content')
             <div class="footer">
                 <div class="pull-right">
-                    安徽乐行云享信息科技有限公司 &copy; 2016
+                    {{$meta_title}} &copy; 2016
                 </div>
             </div>
         </div>

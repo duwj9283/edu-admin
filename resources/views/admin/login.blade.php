@@ -44,7 +44,7 @@
 </div>
 <footer>
     <div class="text-center">
-        <p>安徽乐行云享信息科技有限公司 &copy; 2016</p>
+        <p>{{$title}} &copy; 2016</p>
     </div>
 </footer>
 @endsection

@@ -90,13 +90,14 @@ h3 {
 
 
 h4{
+	padding-left:15px;
 	font-size: 18px;
 	font-family: "Microsoft YaHei";
 	color: rgb(255, 255, 255);
 	font-weight: normal;
 	line-height: 50px;
 	font-weight:normal;
-	width:305px;
+	width:290px;
 	background-image: url(../images/header-bg.png);
 
 
@@ -119,19 +120,19 @@ h4{
 	border: 1px solid #4a545e;
 	border-right: 0px;
 	background-color: #353e47;
-
 	color:#fff;
 	list-style: none;
 	font-size: 16px;
 	font-family: "Microsoft YaHei";
 	color: #fff;
-	text-align: center;
-	height:500px;
+	text-align: left;
+	height:450px;
 	overflow: auto;
 }
 
 .rightbox li{
 	padding:5px 0px;
+	padding-left:15px;
 }
 .rightbox li:first-of-type{
 	margin-top:15px;

@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="right">
+            <h4>教室列表</h4>
             <ul class="rightbox" id="tblDataList">
-                <h4>教室列表</h4>
                 @foreach($rows as $key=>$row)
                     <li data-id="{{$row->device_id}}"><a style="cursor:pointer;">{{$row->title}}</a></li>
                 @endforeach
@@ -86,7 +86,7 @@
                 });
             });
         });
-
+        $('#tblDataList li:first').trigger('click');
     })
 </script>
 </body>

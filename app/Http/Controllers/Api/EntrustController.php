@@ -40,6 +40,7 @@ class EntrustController extends Controller
         $realname = safe($request->input('realname'), 50);
         $cardid = safe($request->input('cardid'), 30);
         $sex = safe($request->input('sex'), 10);
+        $subject = $request->input('subject');
 
         $n = User::where('username', $username)->count();
         if ($n > 0) {
@@ -63,6 +64,7 @@ class EntrustController extends Controller
         $user->email = $email;
         $user->mobile = $mobile;
         $user->status = $status;
+        $user->subject = !empty($subject)?implode(',',$subject):'';
         $user->save();
         return $this->response('ok');
     }
@@ -112,6 +114,11 @@ class EntrustController extends Controller
             $status = ($id == 1) ? 1 : toLimitLng($request->input('status'), 0, 1);
             $user->status = $status;
         }
+
+        $subject = $request->input('subject');// 学科
+        $user->subject = !empty($subject)?implode(',',$subject):'';
+
+
         if ($user->save()) {
             return $this->response();
         }

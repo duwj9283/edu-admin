@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">邮箱</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <input type="email" name="email" class="form-control">
                     </div>
                 </div>
@@ -46,6 +46,14 @@
                     <label class="col-sm-2 control-label">手机</label>
                     <div class="col-sm-4">
                         <input type="text" name="mobile" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">学科</label>
+                    <div class="col-sm-8">
+                        @foreach($subject as $sub)
+                        <label class="checkbox-inline i-checks"> <input type="checkbox" name="subject[]" value="{{$sub->id}}">{{$sub->subject_name}}</label>
+                        @endforeach
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>

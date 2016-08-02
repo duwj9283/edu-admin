@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-
+use App\Models\Subject;
 class ProfileController extends Controller
 {
     public function __construct()
@@ -19,6 +19,12 @@ class ProfileController extends Controller
         $user_id = session('token')['user_id'];
         $user = User::find($user_id);
         $user->avatar = getPhoto($user_id);
+        $user->subject_names='';
+
+        if($user->subject){
+            $subject_names=Subject::whereIn('id',explode(',',$user->subject))->lists('subject_name')->toArray();
+            $user->subject_names=implode(',',$subject_names);
+        }
         return view('admin/profile/profile', $user);
     }
 

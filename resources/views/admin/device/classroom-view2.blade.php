@@ -67,6 +67,11 @@
 
         $('#tblDataList li').click(function () {
             var id = $(this).data('id');
+            $('#tblDataList li').each(function() {
+                $(this).attr("class","li-no");
+            })
+            $(this).attr("class", "li-act");
+
             $.get('/admin/device/classroom-view-device', {id: id}, function (data) {
                 createStreamPlayer({
                     ip: '192.168.1.98',

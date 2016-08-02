@@ -134,10 +134,20 @@ h4{
 	padding:5px 0px;
 	padding-left:15px;
 }
-.rightbox li:first-of-type{
-	margin-top:15px;
+
+.rightbox li:hover{
+	background-color:#ccc;
+	color:#333;
 }
 
+.li-act{
+	background-color:#ccc;
+	color:#333;
+}
+.li-no{
+	background-color:inherit;
+	color:#fff;
+}
 
 .long {
 	width: 145px;

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -40,5 +40,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
         });
+        foreach (glob(app_path('Http/Routes/routes.*.php')) as $file) {
+            require_once $file;
+        }
     }
 }

@@ -30,6 +30,67 @@
                     <span class="nav-label">欢迎您</span>
                 </a>
             </li>
+            @if($user->can('news'))
+                <?php
+                $j = 1;
+                $newsclass = new \App\Models\Newsclass;
+                $rows = $newsclass->getTree();
+                foreach ($rows as $row):
+                    if ($row->depth < $j):
+                        $n = $j - $row->depth;
+                        for ($m = 0; $m < $n; $m++):
+                            echo '</ul></li>';
+                        endfor;
+                    endif;
+                    if ($row->child > 0):
+                ?>
+                    <li rel="news-{{$row->id}}">
+                        <a href="{{url('admin/newsinfo/list/'.$row->id)}}">
+                            <i class="fa fa-th-list"></i>
+                            <span class="nav-label">{{$row->name}}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                <?php else: ?>
+                    <li rel="news-{{$row->id}}">
+                        <a href="{{url('admin/newsinfo/list/'.$row->id)}}">{{$row->name}}</a>
+                    </li>
+                <?php
+                    endif;
+                    if ($row->depth > $j):
+                        $j++;
+                    elseif ($row->depth < $j):
+                        $j--;
+                    endif;
+                endforeach;
+                for ($m = 1; $m < $j; $m++):
+                    echo '</ul></li>';
+                endfor;
+                ?>
+                @if($token['isHidden'])
+                <li rel="news">
+                    <a href="javascript:;">
+                        <i class="fa fa-sitemap"></i>
+                        <span class="nav-label">资讯管理</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li rel="1">
+                            <a href="{{url('admin/newsclass')}}">栏目结构</a>
+                        </li>
+                        <li rel="2">
+                            <a href="{{url('admin/newsinfo')}}">信息管理</a>
+                        </li>
+                        <li rel="3">
+                            <a href="{{url('admin/newsclass/popedom')}}">权限分配</a>
+                        </li>
+                        <li rel="4">
+                            <a href="{{url('admin/newsclass/tree-list')}}">栏目树结构</a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+            @endif
             @if($user->can('system'))
             <li rel="entrust">
                 <a href="javascript:;">
@@ -141,7 +202,6 @@
                         </li>
                     </ul>
                 </li>
-
             @endif
             @if($user->can('classroom'))
             <!--设备管理-->
@@ -152,6 +212,21 @@
                 </a>
             </li>
             @endif
+            @if($user->can('tongji'))
+                <li rel="tongji">
+                    <a href="javascript:;">
+                        <i class="fa fa-video-camera"></i>
+                        <span class="nav-label">统计报表</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li rel="1">
+                            <a href="{{url('admin/tongji/users')}}">用户统计</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
         </ul>
     </div>
 </nav>

@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin'], function () {
         'device' => 'Admin\DeviceController', //编码器设备管理
         'sitecfg' => 'Admin\SiteconfigController', //站点配置
         'mkapp' => 'Admin\MkappController', //应用管理
+        'tongji' => 'Admin\TongiController', //统计管理
     ]);
 });
 
@@ -29,7 +30,7 @@ Route::group(['prefix' => 'api'], function () {
         'user' => 'Api\UserController',
         'entrust' => 'Api\EntrustController',
         'subject' => 'Api\SubjectController',
-        'encoder' => 'Api\EncoderController',//编码器接口
+        'encoder' => 'Api\EncoderController', //编码器接口
     ]);
 });
 

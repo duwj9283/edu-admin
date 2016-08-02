@@ -19,12 +19,13 @@
                             <th>手机号</th>
                             <th>邮箱</th>
                             <th>性别</th>
+                            <th>是否需重置密码</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($lists as $key=> $value)
-                            <tr data-id="{{$value['uid']}}" >
+                            <tr data-id="{{$value['uid']}}">
                                 <td>{{$key+1}}</td>
                                 <td>{{$value['nick_name']}}</td>
                                 <td>{{$value['realname']}}</td>
@@ -32,7 +33,14 @@
                                 <td>{{$value['email']}}</td>
                                 <td>{{$value['sex']}}</td>
                                 <td>
-                                    <a href="/admin/webuser/pwd?id={{$value['uid']}}" ><i class="fa fa-edit">重置密码</i></a>
+                                    @if($value['is_forget']==1)
+                                        <span style="color: red">是</span>
+                                    @else
+                                        <span>否</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="reset" data-uid="{{$value['uid']}}" ><i class="fa fa-edit">重置密码</i></a>
                                     @if($value['disable']==1)
                                         <a href="javascript:void(0)" class="js-disable" data-status="1"><i class="fa  fa-check-circle">启用</i></a>
                                     @else
@@ -97,39 +105,6 @@ tr.current{
         $(function(){
             $(".sidebar-collapse li[rel='webuser-s']").addClass("active");
 
-
-            //导入
-            $('.js-import').click(function(){
-
-                $('#myModal').modal('show');
-                return false;
-            });
-
-            //新建编辑 保存
-            $('#myModal').delegate('form[name="import-form"]','submit',function(){
-
-                $form=$('form[name="import-form"]');
-                formData_object = new FormData();
-                $('#myModal').modal('hide');
-                formData_object.append('file',$form.find('input[name="file"]')[0].files[0]);
-
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: $form.attr('method'),
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    data: formData_object,
-                    success:function(){
-                        dialog({
-                            title: false,
-                            content: '导入成功’'
-                        }).show();
-                    },
-                    error:failure
-                })
-            });
-
             //禁用 启用
             $('.ibox-content').delegate('.js-disable','click',function(){
                 var status=$(this).data('status');
@@ -151,12 +126,36 @@ tr.current{
                     cancel: function () {}
                 }).show();
 
+            });
+
+            //禁用 启用
+            $('.ibox-content').delegate('.reset','click',function(){
+                var uid=$(this).data('uid');
+                var d = dialog({
+                    title: '提示',
+                    content: '确定重置该账号密码',
+                    okValue: '确定',
+                    ok: function () {
+                        this.close()    ;
+                        $.post('/admin/webuser/pwd',{uid:uid},function(r){
+                            if(r)
+                            {
+                                window.location.reload();
+                            }
+                            else
+                            {
+                                alert('重置密码失败');
+                            }
+                            return false;
+                        }).fail(failure);
+                        return false;
+                    },
+                    cancelValue: '取消',
+                    cancel: function () {}
+                }).show();
+
             })
-        })
-
-
-
-
+        });
     </script>
 
 @endsection

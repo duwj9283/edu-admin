@@ -48,21 +48,36 @@
       <div id="tab-banner" class="tab-pane">
         <div class="panel-body row">
           <div class="col-lg-6">
-            <div id="bannerPicker">选择图片</div>
-            <ul id="banner-list" class="list-unstyled">
-              @foreach($banners as $ban)
-              <li>
-                <button class="btn btn-danger" onclick="removeBanner('{{$ban}}')"><i class="fa fa-trash"></i> 删除此图片</button>
-                <p><img src="{{$frontend['url'] . $ban}}" class="img-thumbnail img-responsive" /></p>
-              </li>
-              @endforeach
-            </ul>
+            <div class="form-group">
+              <select id="channelSelector" class="form-control" style="width:auto;">
+                <option value="">- 请选择频道 -</option>
+                <option value="site_banner1">发现</option>
+                <option value="site_banner2">资源</option>
+                <option value="site_banner3">课程</option>
+                <option value="site_banner4">微课</option>
+                <option value="site_banner5">直播</option>
+                <option value="site_banner6">空间</option>
+              </select>
+            </div>
+            <div id="tblBannerList"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script id="tplBannerList" type="text/html">
+  <div id="bannerPicker"><i class="fa fa-cloud-upload"></i> 选择图片</div>
+  <ul id="banner-list" class="list-unstyled">
+    <%each list as item i%>
+    <li>
+      <button class="btn btn-danger" onclick="removeBanner('<%item%>')"><i class="fa fa-trash"></i> 删除此图片</button>
+      <p><img src="{{$frontend['url']}}<%item%>" class="img-thumbnail img-responsive" /></p>
+    </li>
+    <%/each%>
+  </ul>
+</script>
 
 <script id="tplBannerListTr" type="text/html">
   <li>
@@ -106,18 +121,11 @@
   });
 
   var uploader = WebUploader.create({
-    // 选完文件后，是否自动上传。
     auto: true,
-    // swf文件路径
     swf: '/assets/WebUploader/Uploader.swf',
-    // 文件接收服务端。
     server: "{{url('admin/sitecfg/upload-logo')}}",
-    // 文件上传请求的参数表
     formData: {},
-    // 选择文件的按钮。可选。
-    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: '#filePicker',
-    // 只允许选择图片文件。
     accept: {
       title: 'Images',
       extensions: 'gif,jpg,jpeg,bmp,png',
@@ -133,7 +141,7 @@
   });
 
   var bannerUploader;
-  var bannerUploaderInit = function(){
+  /*var bannerUploaderInit = function(){
     bannerUploader = WebUploader.create({
       auto: true,
       swf: '/assets/WebUploader/Uploader.swf',
@@ -153,14 +161,14 @@
       }
       $("#banner-list").append(template("tplBannerListTr", result));
     });
-  };
+  };*/
 
   var removeBanner = function(src){
-    var obj = event.target;
+    var obj = event.target, option_name = $("#channelSelector").val();
     dialog({
       content:'<i class="fa fa-info-circle"></i> 确定要删除此图片吗？',
       ok:function(){
-        $.post("{{url('admin/sitecfg/remove-banner')}}", {"src":src}, function(){
+        $.post("{{url('admin/sitecfg/remove-banner')}}", {"option_name":option_name, "src":src}, function(){
           $(obj).parents("li").remove();
         }).fail(failure);
       },
@@ -168,13 +176,49 @@
     }).showModal();
   };
 
-  $('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
+  var loadBannerUploader = function(option_name){
+    bannerUploader = WebUploader.create({
+      auto: true,
+      swf: "{{asset('assets/WebUploader/Uploader.swf')}}",
+      server: "{{url('admin/sitecfg/upload-banner')}}",
+      formData: {"option_name": option_name},
+      pick: '#bannerPicker',
+      accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+      }
+    });
+    bannerUploader.on("uploadSuccess", function(file, result){
+      if(result.status == "0"){
+        failure(result.msg);
+        return;
+      }
+      $("#banner-list").append(template("tplBannerListTr", result));
+    });
+  };
+
+  $("#channelSelector").on("change", function(){
+    var option_name = this.value;
+    if(option_name == ""){
+      $("#tblBannerList").html("");
+      bannerUploader = undefined;
+      return;
+    }
+    $("#tblBannerList").html('<p class="ibox-loading-31"></p>');
+    $.get("{{url('admin/sitecfg/banner-list')}}", {"option_name":option_name}, function(data){
+      $("#tblBannerList").html(template("tplBannerList", data));
+      loadBannerUploader(option_name);
+    }).fail(failure);
+  });
+
+  /*$('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
     var target = e.target.toString();
     if(target.indexOf('tab-banner') > 0){
       if(bannerUploader == undefined){
         bannerUploaderInit();
       }
     }
-  });
+  });*/
 </script>
 @endsection

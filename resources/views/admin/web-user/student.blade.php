@@ -128,7 +128,6 @@ tr.current{
 
             });
 
-            //禁用 启用
             $('.ibox-content').delegate('.reset','click',function(){
                 var uid=$(this).data('uid');
                 var d = dialog({

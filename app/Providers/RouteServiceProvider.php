@@ -38,8 +38,6 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
         });
-        $router->group([], function ($router) {
-            require app_path('Http/Routes/routes.news.php');
-        });
+        require app_path('Http/Routes/routes.news.php');
     }
 }

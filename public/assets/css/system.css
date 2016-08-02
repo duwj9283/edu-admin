@@ -9,8 +9,8 @@ body {
 }
 
 main {
-	width: 1152px;
-	height: 720px;
+	width: 1198px;
+	height: 724px;
 	margin: 0 auto;
 	background-color: #353e47;
 	border: 1px solid #4a545e;
@@ -18,7 +18,7 @@ main {
 
 .header {
 	height: 50px;
-	background-image: url(../img/header-bg.png);
+	background-image: url(../images/header-bg.png);
 	border-bottom: 1px solid #4A545E;
 }
 
@@ -94,7 +94,7 @@ h3 {
 .right {
 	float: right;
 	height: 502px;
-	width: 260px;
+	width: 306px;
 	background-color: #25292f;
 }
 
@@ -121,16 +121,6 @@ h3 {
 	font-size:18px;
 }
 
-
-
-.footer {
-	font-size: 14px;
-	font-family: "Microsoft YaHei";
-	color: rgb(149, 157, 166);
-	line-height: 25px;
-	text-align: center;
-}
-
 .long {
 	width: 145px;
 	margin-top: 58px;
@@ -139,34 +129,8 @@ h3 {
 	font-family: "Microsoft YaHei";
 	color: rgb(126, 136, 142);
 	line-height: 1.117;
-	background: url(../img/long.png);
+	background: url(../images/long.png);
 	border: 0;
 	border-radius: 5px;
 	margin-left: 144px;
-}
-
-.long:active {
-	background: url(../img/long-act.png);
-}
-
-.wrapbtn {
-	margin-top: 24px;
-	margin-left: 12px;
-}
-
-.wrapbtn button {
-	width: 80px;
-	height: 48px;
-	background: url(../img/orange.png);
-	border: 0;
-	border-radius: 5px;
-	font-size: 16px;
-	font-family: "Microsoft YaHei";
-	color: rgb(255, 255, 255);
-	margin-left: 13px;
-	margin-bottom: 21px;
-}
-
-.wrapbtn button:active {
-	background: url(../img/orange2.png);
 }

@@ -233,15 +233,9 @@ class WebUserController extends Controller
         $data['roles']=WebUserRole::lists('role_name','id');
         $data['lists']=WebUser::leftJoin('edu_user_info as ui','ui.uid','=','edu_user.uid')
             ->where('edu_user.role_id',1)//1学生 2教师 3	学科管理员
-            ->select('edu_user.username','edu_user.phone','edu_user.role_id','edu_user.disable','ui.*')
-            ->orderBy('edu_user.uid')->paginate(20);//得到所有list
+            ->select('edu_user.username','edu_user.phone','edu_user.role_id','edu_user.disable','edu_user.is_forget','ui.*')
+            ->orderBy('edu_user.is_forget','desc')->paginate(20);//得到所有list
         return view('admin.web-user.student',$data);
-    }
-
-    public function getPwd(Request $request)
-    {
-        $data['id']=$request->input('id');
-        return view('admin.web-user.student-pwd',$data);
     }
 
     /**
@@ -251,9 +245,23 @@ class WebUserController extends Controller
      */
     public function postPwd(Request $request)
     {
-        $new_pwd = $request->input('new_pwd');
         $uid = $request->input('uid');
-        $user = WebUser::where('uid',$uid);
-        return $this->response(true);
+        $timestamp = time();
+        $auth_token = md5($uid.'Pwd$&*WIND758U'.$timestamp);
+        $url= "http://lubo.iemaker.cn/api/user/resetPassword?uid=$uid&password=123456&auth_token=$auth_token&timestamp=$timestamp";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($res,true);
+        if($result['code']==0)
+        {
+            return $this->response(true);
+        }
+        else
+        {
+            return $this->response(false);
+        }
     }
 }

@@ -33,11 +33,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     /**
-     * 前台项目上传目录及访问路径
+     * 前台项目访问路径及站点主目录
      */
     'frontend' => [
-        'upload_url' => 'http://localhost:81/upload',
-        'upload_path' => 'd:/wwwroot/omeeting/ahedu/www/public/upload',
+        'url' => env('FRONTEND_URL', 'http://lubo.iemaker.cn/'),
+        'path' => env('FRONTEND_PATH', '/home/debian/www/lubov2/public/'),
     ],
     /**
      * 网络视频流支持服务

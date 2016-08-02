@@ -1,6 +1,7 @@
 <?php
 $token = session('token');
 $user = App\Models\User::find($token['user_id']);
+$meta_title = App\Models\Siteconfig::where('option_name', 'meta_title')->pluck('option_value');
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,8 +45,7 @@ $user = App\Models\User::find($token['user_id']);
             @yield('content')
             <div class="footer">
                 <div class="pull-right">
-                    <strong>Copyright</strong>
-                    安徽乐行云享信息科技有限公司 &copy; 2014-2016
+                    {{$meta_title}} &copy; 2016
                 </div>
             </div>
         </div>

@@ -40,12 +40,6 @@
             <li>
                 <h3>学生全景</h3>
             </li>
-            <li>
-                <h3>学生全景</h3>
-            </li>
-            <li>
-                <h3 style="width:189px;">学生全景</h3>
-            </li>
         </ul>
         <div id="j-flashArea-detail-player"></div>
     </div>
@@ -74,7 +68,7 @@
 
             $.get('/admin/device/classroom-view-device', {id: id}, function (data) {
                 createStreamPlayer({
-                    ip: '192.168.1.98',
+                    ip: data.ip,
                     stream_name: 'stream5',
                     preview: '/assets/previewVideo.swf',
                     id: 'j-flashArea-player',
@@ -82,7 +76,7 @@
                     height:'100%'
                 });
                 createStreamPlayer({
-                    ip: '192.168.1.98',
+                    ip: data.ip,
                     stream_name: 'stream7',
                     preview: '/assets/previewVideo-small.swf',
                     id: 'j-flashArea-detail-player',

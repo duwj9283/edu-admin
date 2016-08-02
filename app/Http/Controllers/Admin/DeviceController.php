@@ -141,7 +141,7 @@ class DeviceController extends Controller
         $data['rows'] = ClassRoom::get();
         $data['vs2_serv'] = json_encode(config('services.vs2_serv'));
 
-        return view('admin/device/classroom-view', $data);
+        return view('admin/device/classroom-view2', $data);
     }
     /**
      * 教室轮询-得到具体设备

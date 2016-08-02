@@ -22,8 +22,7 @@
               <img alt="image" class="img-circle" src="{{getAvatar(session('token')['user_id'])}}" width="66" />
             </div>
             <h2>Welcome</h2>
-            欢迎进入 <strong class="green">乐行云享后台管理系统</strong>
-            <small>(v1.0)</small>
+            欢迎进入 <strong>{{$meta_title}}</strong>
           </div>
         </div>
       </div>

@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="right">
+            <h4>教室列表</h4>
             <ul class="rightbox" id="tblDataList">
-                <li>- 教室列表 -</li>
                 @foreach($rows as $key=>$row)
                     <li data-id="{{$row->device_id}}"><a style="cursor:pointer;">{{$row->title}}</a></li>
                 @endforeach
@@ -30,7 +30,6 @@
         <ul class="four">
             <li>
                 <h3>PPT</h3>
-
             </li>
             <li>
                 <h3>老师近景</h3>
@@ -45,7 +44,7 @@
                 <h3>学生全景</h3>
             </li>
             <li>
-                <h3>学生全景</h3>
+                <h3 style="width:189px;">学生全景</h3>
             </li>
         </ul>
         <div id="j-flashArea-detail-player"></div>
@@ -87,7 +86,7 @@
                 });
             });
         });
-
+        $('#tblDataList li:first').trigger('click');
     })
 </script>
 </body>

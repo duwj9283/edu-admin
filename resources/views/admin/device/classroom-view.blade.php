@@ -120,7 +120,7 @@
             var id = $(this).data('id');
             $(this).addClass('hoverTr').siblings('tr').removeClass('hoverTr');
             $.get('/admin/device/classroom-view-device', {id: id}, function (data) {
-               
+
                 createStreamPlayer({
                     ip: '192.168.1.98',
                     stream_name: 'stream5',

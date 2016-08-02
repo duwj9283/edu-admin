@@ -1,15 +1,76 @@
 @extends('admin.main')
+@section('pageheader')
+    <style>
+        #tblDataList .hoverTr {
+            background-color: #f5f5f5;
+        }
+        .wrapper-content{
+            background-color: #000;
+            padding:0;
+            margin-top:30px;
+        }
+        #page-wrapper{
+            background-color: #000;
+            padding:0;
+        }
+
+        .row{
+            background-color:#000;
+        }
+        .ibox-content{
+            background-color:#000;
+            padding:15px 20px 0 20px;
+            border:0;
+        }
+        .play-video{
+            width:768px;
+            height:432px;
+
+        }
+
+        .ibox{
+            margin-bottom:0;
+        }
+        .four {
+            width: 100%;
+            height: 138px;
+            list-style: none;
+            padding:0px;
+            overflow:hidden;
+        }
+
+
+        h3 {
+            font-weight: normal;
+            font-size: 16px;
+            font-family: "Microsoft YaHei";
+            color: rgb(188, 188, 188);
+            line-height: 30px;
+            height: 30px;
+            background-color: #353e47;
+            width:192px;
+            padding-left: 14px;
+            margin-top:0px !important;
+            margin-bottom:0px;
+        }
+
+        .four li {
+            float: left;
+            background-color: #4a545e;
+            height: 138px;
+            width:192px;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="wrapper wrapper-content">
 
 
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>教室轮询</h5>
-            </div>
+
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-sm-3" style="max-height:800px;overflow:auto">
+                    <div class="col-sm-2" style="max-height:800px;overflow:auto">
                         <table id="tblDataList" class="table table-hover">
 
                             @foreach($rows as $key=>$row)
@@ -22,14 +83,33 @@
 
                         </table>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-10">
 
-                        <div class="play-video" style="height:500px;">
+                        <div class="play-video">
                             <div id="j-flashArea-player"></div>
                         </div>
-                        <div class="play-video">
-                            <div id="j-flashArea-detail-player"></div>
-                        </div>
+                            <ul class="four">
+                                <li>
+                                    <h3>PPT</h3>
+
+                                </li>
+                                <li>
+                                    <h3>老师近景</h3>
+                                    <div id="j-flashArea-detail-player"></div>
+
+                                </li>
+                                <li>
+                                    <h3>老师全景</h3>
+                                    <div id="j-flashArea-detail-player"></div>
+
+                                </li>
+                                <li>
+                                    <h3>学生全景</h3>
+
+                                </li>
+                            </ul>
+                            <!---->
+
 
                     </div>
                 </div>
@@ -40,62 +120,11 @@
 
     </div>
 
-    <script id="tplEditPannel" type="text/html">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form id="formEdit" method="post" action="{{url('admin/device/classroom-update')}}"
-                      class="form-horizontal" onsubmit="return false">
-                    <div class="modal-header">
-                        <button class="close" data-dismiss="modal" type="button">&times;</button>
-                        <h4 class="modal-title" id="avatar-modal-label">教室</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">名称</label>
-                            <div class="col-sm-5">
-                                <input type="text" name="title" value="<%title%>" class="form-control" required=""
-                                       autofocus>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">设备</label>
-                            <div class="col-sm-5">
-                                <select name="device_id" class="form-control" required="">
-                                    <%if device.length >0%>
-                                    <% each device as item %>
-                                    <option value="<%item.id%>"
-                                    <%if item.id==device_id %> selected<%/if%>><%item.title%></option>
-                                    <%/each%>
-                                    <%else%>
-                                    <option value="0">请先添加设备</option>
-                                    <%/if%>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-2">
-                                <input type="hidden" name="id" value="<%id%>">
-                                <button class="btn btn-primary btn-w-m js-sub" type="submit">确定</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </script>
 
 @endsection
 
-@section('pageheader')
-    <style>
-        #tblDataList .hoverTr {
-            background-color: #f5f5f5;
-        }
-    </style>
-@endsection
+
 @section('pagescript')
     <script src="{{asset('assets/swfobject/swfobject.js')}}"></script>
 
@@ -120,7 +149,7 @@
             var id = $(this).data('id');
             $(this).addClass('hoverTr').siblings('tr').removeClass('hoverTr');
             $.get('/admin/device/classroom-view-device', {id: id}, function (data) {
-               
+
                 createStreamPlayer({
                     ip: '192.168.1.98',
                     stream_name: 'stream5',

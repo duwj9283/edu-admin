@@ -34,6 +34,14 @@
                                 <input type="text" name="mobile" value="{{$mobile}}" class="form-control" />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">学科</label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static">
+                                    @if($subject_names){{$subject_names}}
+                                    @else暂无学科@endif</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-md-offset-1">
                         <a href="javascript:;" id="btnChanageAvatar" title="点击修改头像">

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class EntrustController extends Controller
@@ -46,7 +47,8 @@ class EntrustController extends Controller
 
     public function getUserAdd()
     {
-        return view('admin/entrust/user_add');
+        $data['subject']=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集学科list
+        return view('admin/entrust/user_add',$data);
     }
 
     public function getUserEdit(Request $request)
@@ -56,6 +58,7 @@ class EntrustController extends Controller
         if (empty($user)) {
             return $this->warning('无效的用户');
         }
+        $user->subjectArr=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集学科list
         return view('admin/entrust/user_edit', $user);
     }
 

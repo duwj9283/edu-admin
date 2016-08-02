@@ -248,7 +248,11 @@ class WebUserController extends Controller
         $uid = $request->input('uid');
         $timestamp = time();
         $auth_token = md5($uid.'Pwd$&*WIND758U'.$timestamp);
-        $url= "http://lubo.iemaker.cn/api/user/resetPassword?uid=$uid&password=123456&auth_token=$auth_token&timestamp=$timestamp";
+
+        $frontend = config('services.frontend');
+
+        $url= $frontend['url']."api/user/resetPassword?uid=$uid&password=123456&auth_token=$auth_token&timestamp=$timestamp";
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

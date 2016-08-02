@@ -1,0 +1,141 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #20242a;
+	width: 100%;
+}
+
+main {
+	width: 1198px;
+	height: 724px;
+	margin: 0 auto;
+	background-color: #353e47;
+	border: 1px solid #4a545e;
+}
+
+.header {
+	height: 50px;
+	background-image: url(../images/header-bg.png);
+	border-bottom: 1px solid #4A545E;
+}
+
+h1 {
+	font-size: 18px;
+	font-family: "Microsoft YaHei";
+	color: rgb(255, 255, 255);
+	font-weight: normal;
+	line-height: 50px;
+	margin-left: 25px;
+	float: left;
+	width: 164px;
+}
+
+
+
+
+.clearfix::after {
+	clear: both;
+	content: '.';
+	display: block;
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
+
+.video {
+	width: 888px;
+	height: 500px;
+	background-color: #000;
+}
+
+.left {
+	float: left;
+	border-top: 2px solid #272d32;
+	border-right: 2px solid #272d32;
+	background-color: #25292f;
+}
+
+
+
+
+
+
+.four {
+	margin-top: 2px;
+	height: 100%;
+	list-style: none;
+	width:100%;
+}
+
+h3 {
+	font-weight: normal;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	color: rgb(188, 188, 188);
+	line-height: 30px;
+	height: 30px;
+	background-color: #353e47;
+	width: 184px;
+	padding-left:14px;
+	border-right:1px solid #4a545e;
+	position: relative;
+	top: 1px;
+}
+
+h3:last-child{
+
+	width:189px;
+}
+
+.four li {
+	float: left;
+	height: 100%;
+	width: 199px;
+}
+
+.right {
+	float: right;
+	height: 502px;
+	width: 306px;
+	background-color: #25292f;
+}
+
+.rightbox {
+	border: 1px solid #4a545e;
+	border-right: 0px;
+	background-color: #353e47;
+	margin-top: 2px;
+	padding: 15px 0;
+	color:#fff;
+	list-style: none;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	color: #fff;
+	text-align: center;
+	height:470px;
+	overflow: auto;
+}
+
+.rightbox li{
+	padding:5px 0px;
+}
+.rightbox li:first-child{
+	font-size:18px;
+}
+
+.long {
+	width: 145px;
+	margin-top: 58px;
+	height: 35px;
+	font-size: 14px;
+	font-family: "Microsoft YaHei";
+	color: rgb(126, 136, 142);
+	line-height: 1.117;
+	background: url(../images/long.png);
+	border: 0;
+	border-radius: 5px;
+	margin-left: 144px;
+}

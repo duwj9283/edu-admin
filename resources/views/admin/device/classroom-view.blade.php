@@ -5,26 +5,34 @@
             background-color: #f5f5f5;
         }
         .wrapper-content{
-            background-color: #000;
+            background-color: #20242a;
             padding:0;
-            margin-top:30px;
         }
         #page-wrapper{
-            background-color: #000;
+            background-color: #20242a;
             padding:0;
         }
 
         .row{
-            background-color:#000;
+            background-color:#20242a;
         }
         .ibox-content{
-            background-color:#000;
-            padding:15px 20px 0 20px;
+            background-color:#20242a;
+            padding:0px 20px 0 20px;
             border:0;
         }
         .play-video{
             width:768px;
-            height:432px;
+
+
+        }
+        h1 {
+            font-size: 16px;
+            font-family: "Microsoft YaHei";
+            color: rgb(255, 255, 255);
+            font-weight: normal;
+            line-height: 50px;
+
 
         }
 
@@ -33,10 +41,13 @@
         }
         .four {
             width: 100%;
-            height: 138px;
             list-style: none;
             padding:0px;
-            overflow:hidden;
+            margin:0;
+            text-align: left;
+            z-index: 999;
+
+
         }
 
 
@@ -52,13 +63,21 @@
             padding-left: 14px;
             margin-top:0px !important;
             margin-bottom:0px;
+            text-align: left;
         }
 
         .four li {
             float: left;
-            background-color: #4a545e;
-            height: 138px;
             width:192px;
+        }
+        #j-flashArea-detail-player{
+            width:768px;
+            height:108px;
+            z-index:999;
+
+        }
+        tbody{
+            border:1px solid #fff;
         }
     </style>
 @endsection
@@ -71,6 +90,7 @@
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-sm-2" style="max-height:800px;overflow:auto">
+                        <h1>教室列表</h1>
                         <table id="tblDataList" class="table table-hover">
 
                             @foreach($rows as $key=>$row)
@@ -84,7 +104,7 @@
                         </table>
                     </div>
                     <div class="col-sm-10">
-
+                        <h1>教室巡视</h1>
                         <div class="play-video">
                             <div id="j-flashArea-player"></div>
                         </div>
@@ -95,20 +115,29 @@
                                 </li>
                                 <li>
                                     <h3>老师近景</h3>
-                                    <div id="j-flashArea-detail-player"></div>
 
                                 </li>
                                 <li>
                                     <h3>老师全景</h3>
-                                    <div id="j-flashArea-detail-player"></div>
 
                                 </li>
                                 <li>
                                     <h3>学生全景</h3>
 
+                                </li><li>
+                                    <h3>PPT</h3>
+
                                 </li>
+                                <li>
+                                    <h3>老师近景</h3>
+
+                                </li>
+
+
                             </ul>
-                            <!---->
+
+                        <div id="j-flashArea-detail-player"></div>
+
 
 
                     </div>
@@ -142,7 +171,7 @@
                 "streamname": c.stream_name,
                 "buffer": 0.1
             };
-            swfobject.embedSWF(c.preview, c.id, "100%", "100%", "10.1.0", xiSwfUrlStr, flashvars);
+            swfobject.embedSWF(c.preview, c.id, "768px", "108px", "10.1.0", xiSwfUrlStr, flashvars);
         };
 
         $('#tblDataList tr').click(function () {

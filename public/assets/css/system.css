@@ -78,17 +78,17 @@ h3 {
 	line-height: 30px;
 	height: 30px;
 	background-color: #353e47;
-	width: 178px;
-	padding-left: 14px;
+	width: 184px;
+	padding-left:14px;
+	border-right:1px solid #4a545e;
 	position: relative;
 	top: 1px;
 }
 
 .four li {
 	float: left;
-	background-color: #4a545e;
 	height: 100%;
-	width: 192px;
+	width: 199px;
 }
 
 .right {

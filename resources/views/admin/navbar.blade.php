@@ -145,7 +145,7 @@
             @if($user->can('classroom'))
             <!--设备管理-->
             <li rel="classroom">
-                <a href="{{url('admin/device/classroom-view')}}">
+                <a href="{{url('admin/device/classroom-view')}}" target="_blank">
                     <i class="fa fa-video-camera"></i>
                     <span class="nav-label">录播教室巡视</span>
                 </a>

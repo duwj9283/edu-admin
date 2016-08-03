@@ -36,6 +36,9 @@ $meta_title = App\Models\Siteconfig::where('option_name', 'meta_title')->pluck('
                         <li class="m-r">
                             <a href="{{config('services.frontend')['url']}}" target="_blank"> <i class="fa fa-home"></i>网站首页</a>
                         </li>
+                        <li class="m-r">
+                            <a href="{{url('help')}}" target="_blank"> <i class="fa fa-question-circle"></i>帮助中心</a>
+                        </li>
                         <li>
                             <a href="{{url('admin/logout')}}" onclick="return confirm('您确定要退出吗？');"> <i class="fa fa-sign-out"></i>退出</a>
                         </li>

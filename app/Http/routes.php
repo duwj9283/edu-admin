@@ -34,4 +34,10 @@ Route::group(['prefix' => 'api'], function () {
     ]);
 });
 
+Route::group(['name' => 'help'], function () {
+    Route::get('help', 'HelpController@getIndex');
+    Route::get('help/news/{id}', 'HelpController@getColumn');
+    Route::get('help/app/{id}', 'HelpController@getRelease');
+});
+
 Route::any('ueditor', 'UEditorController@index');

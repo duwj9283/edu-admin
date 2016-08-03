@@ -5,14 +5,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Mkapp;
 use App\Models\Mkappver;
 use App\Models\Newsclass;
+use App\Models\Newsinfo;
 
 class HelpController extends Controller
 {
     public function getIndex()
     {
-        $data['app_rows'] = $this->getAppRows();
-        $data['news_rows'] = $this->getNewsRows();
-        return view('help_list', $data);
+        $releaseid = Mkappver::orderBy('id', 'ASC')->pluck('id');
+        return $this->getRelease($releaseid);
     }
 
     private function getNewsRows()
@@ -58,13 +58,34 @@ class HelpController extends Controller
         return $data;
     }
 
-    public function getColumn($id)
-    {
-        return 'news-' . $id;
-    }
-
     public function getRelease($id)
     {
-        return 'appver-' . $id;
+        $data['app_rows'] = $this->getAppRows();
+        $data['news_rows'] = $this->getNewsRows();
+
+        $row = Mkappver::find($id);
+        if (empty($row)) {
+            return warning('无效的应用');
+        }
+        $data['app'] = Mkapp::find($row->app_id);
+        $data['info'] = $row;
+        return view('help/help_release', $data);
+    }
+
+    public function getColumn($id)
+    {
+        $data['app_rows'] = $this->getAppRows();
+        $data['news_rows'] = $this->getNewsRows();
+
+        $row = Newsclass::find($id);
+        if (empty($row)) {
+            return warning('无效的栏目');
+        }
+        $data['column'] = $row;
+
+        $row = Newsinfo::where('class_id', $id)->orderBy('is_top', 'DESC')->orderBy('sortnum', 'DESC')->first();
+        $data['info'] = $row;
+
+        return view('help/help_newsinfo', $data);
     }
 }

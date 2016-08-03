@@ -83,9 +83,35 @@ class HelpController extends Controller
         }
         $data['column'] = $row;
 
-        $row = Newsinfo::where('class_id', $id)->orderBy('is_top', 'DESC')->orderBy('sortnum', 'DESC')->first();
-        $data['info'] = $row;
+        $query = Newsinfo::where('class_id', $id)->where('status', 1);
+        $query->orderBy('is_top', 'DESC')->orderBy('sortnum', 'DESC');
+        $total_rows = $query->count();
 
+        if ($total_rows < 1) {
+            $data['info'] = false;
+            return view('help/help_newsinfo', $data);
+        }
+
+        if ($total_rows == 1) {
+            $row = $query->first();
+            $data['info'] = $row;
+            return view('help/help_newsinfo', $data);
+        }
+
+        $data['rows'] = $query->paginate(12);
+        return view('help/help_newslist', $data);
+    }
+
+    public function getInfo($id)
+    {
+        $info = Newsinfo::where('status', 1)->find($id);
+        if (empty($info)) {
+            return $this->warning('无效的信息');
+        }
+        $data['info'] = $info;
+        $data['column'] = Newsclass::find($info->class_id);
+        $data['app_rows'] = $this->getAppRows();
+        $data['news_rows'] = $this->getNewsRows();
         return view('help/help_newsinfo', $data);
     }
 }

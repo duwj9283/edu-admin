@@ -223,6 +223,9 @@
                         <li rel="1">
                             <a href="{{url('admin/tongji/users')}}">用户统计</a>
                         </li>
+                        <li rel="2">
+                            <a href="{{url('admin/tongji/files')}}">文件统计</a>
+                        </li>
                     </ul>
                 </li>
             @endif

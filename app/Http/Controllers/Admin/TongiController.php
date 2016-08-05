@@ -9,13 +9,20 @@ namespace App\Http\Controllers\Admin;
  */
 use App\Http\Controllers\Controller;
 use App\Models\WebUser;
+use App\Models\File;
+use App\Models\FilePush;
+use App\Models\ApplicationType;
+use App\Models\Subject;
+use DB;
 use Illuminate\Http\Request;
+
 class TongiController extends Controller
 {
 
     public function __construct(){
         $this->middleware("admin");
     }
+    /********************************用户统计-S************************************/
     /*
      * 用户统计
      */
@@ -79,4 +86,71 @@ class TongiController extends Controller
             return $result;
         }
     }
+    /********************************用户统计-E************************************/
+
+    /********************************文件统计-S************************************/
+    /*
+     * 文件统计页面
+     */
+    public function getFiles(){
+        $data['all_count']=File::count();//统计用户所有文件
+        $data['subject_count']=json_encode($this->getFilesSubject());//文件按学科统计
+        $data['applicationType_count']=json_encode($this->getFilesApplicationType());//文件按文件类型统计
+        $users_count=DB::table('edu_user_file_push as eufp')->leftJoin('edu_user_info as eui','eui.uid','=','eufp.uid')
+            ->select(DB::raw('count(*) as count'),'eui.realname')
+            ->GroupBy('eufp.uid')->orderBy('count','DESC')->take(10)->get();//前十名上传文件最多数目
+        $data['users_count']=json_encode($users_count);
+        return view('admin/tongji/files',$data);
+    }
+    /**
+     * 用户已经发布的文件，按学科统计
+     */
+    private function getFilesSubject(){
+        $subjectTree=Subject::getListByTree();//得到所有学科父集=》子集
+        //得到对应subject_id 下count数目
+        $fileBySubject=DB::table('edu_user_file_push')->GroupBy('subject_id')->lists(DB::raw('count(*) as count'),'subject_id');
+        if($subjectTree){
+            foreach($subjectTree as $key=>$value){
+                $subject[$key]['id']=$value->id;
+                $subject[$key]['subject_name']=$value->subject_name;
+                $subject[$key]['count']=0;
+                if($value->child){
+                    foreach($value->child as $child){
+                        foreach($fileBySubject as $subject_id=>$count){
+                            //如果edu_user_file_push表中有subject_id数目，加入
+                            if($subject_id==$child['id']){
+                                $subject[$key]['count']=$subjectTree[$key]['count']+$count;
+                            }
+                        }
+                    }
+                }
+
+            }
+            return $subject;//返回学科以及对应数目 数组
+
+        }
+
+    }
+    /**
+     * 用户已经发布的文件，按文件类型统计
+     */
+    private function getFilesApplicationType(){
+        $applicationArr=ApplicationType::get();//得到所有文件类型
+        $fileByType=DB::table('edu_user_file_info')->GroupBy('application_type')->lists(DB::raw('count(*) as count'),'application_type');
+
+        foreach($applicationArr as $key=>$value){
+            $application[$key]['count']=0;
+            $application[$key]['name']=$value->name;
+            foreach($fileByType as $type=>$count){
+
+                if($type==$value->id){
+                    $application[$key]['count']=$application[$key]['count']+$count;
+                }
+            }
+        }
+        return $application;
+
+    }
+    /********************************文件统计-E************************************/
+
 }

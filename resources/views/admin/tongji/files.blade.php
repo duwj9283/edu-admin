@@ -52,8 +52,9 @@
 @section('pageheader')
     <style>
         .primary{
-            background-color:#1ab394;
+            background-color:#18a689;
             color:#FFFFFF;
+            border-color: #18a689;
         }
     </style>
 @endsection

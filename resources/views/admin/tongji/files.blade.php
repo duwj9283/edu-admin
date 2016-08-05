@@ -13,40 +13,36 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>发布文件数</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{$all_push_count}}</h1>
 
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div class="ibox float-e-margins">
+
             <div class="ibox-title">
-                <h5>文件按学科统计报表</h5>
+                <div class="btn-group">
+                    <button class="btn btn-white primary" type="button" data-type="1">文件按学科统计报表</button>
+                    <button class="btn btn-white" type="button"  data-type="2">文件按应用类型统计报表</button>
+                    <button class="btn btn-white" type="button"  data-type="3">前十名上传文件数最多统计</button>
+                </div>
 
             </div>
             <div class="ibox-content">
+
 
                 <div id="c1"></div>
 
             </div>
-            <div class="ibox-title">
-                <h5>文件按应用类型统计报表</h5>
 
-            </div>
-            <div class="ibox-content">
-
-
-                <div id="c2"></div>
-
-            </div>
-            <div class="ibox-title">
-                <h5>前十名上传文件数最多统计</h5>
-
-            </div>
-            <div class="ibox-content">
-
-
-
-                <div id="c3"></div>
-
-            </div>
         </div>
     </div>
 
@@ -54,6 +50,13 @@
 @endsection
 
 @section('pageheader')
+    <style>
+        .primary{
+            background-color:#18a689;
+            color:#FFFFFF;
+            border-color: #18a689;
+        }
+    </style>
 @endsection
 @section('pagescript')
     <script src="{{asset('assets/g2/index.js')}}"></script>
@@ -66,83 +69,47 @@
                 .find("ul").addClass("in")
                 .find("li[rel='2']").addClass("active");
 
-
-
-
-
             var Stat = G2.Stat;
             var chart = new G2.Chart({
                 id: 'c1',
                 forceFit: true,
-                height: 800,
+                height: 700,
                 plotCfg: {
                     margin: [20, 100, 60, 80]
                 }
             });
-            // 配置列定义,设置y轴的最小值
-            var colDefs = {
-                count: {
-                    min: 0,
-                    alias: '总数'
-                },
-                subject_name: {
-                    alias: '学科'
-                }
-            };
-            var subject_count=JSON.parse('{!! $subject_count !!}');
 
-            chart.source(subject_count, colDefs);
-            chart.interval().position(Stat.summary.mean('subject_name*count')).color('subject_name');
-            chart.render();
+            $('.btn-group button').click(function(){
+                $(this).addClass('primary').siblings('button').removeClass('primary');
+                type=$(this).data('type');
+                $.get('/admin/tongji/files-by-type',{type:type},function(data){
+                    chart.clear();
+                    if(type==1){
+                        name='学科';
+                    }else if(type==2){
+                        name='应用类型';
+                    }else if(type==3){
+                        name='人员';
+                    }
+                    // 配置列定义,设置y轴的最小值
+                    var colDefs = {
+                        count: {
+                            min: 0,
+                            alias: '总数'
+                        },
+                        name: {
+                            alias: name
+                        }
+                    };
 
-            var chart = new G2.Chart({
-                id: 'c2',
-                forceFit: true,
-                height: 600,
-                plotCfg: {
-                    margin: [20, 100, 60, 80]
-                }
+                    chart.source(data, colDefs);
+                    chart.interval().position(Stat.summary.mean('name*count')).color('name');
+                    chart.render();
+                })
             });
-            // 配置列定义,设置y轴的最小值
-            var colDefs = {
-                count: {
-                    min: 0,
-                    alias: '总数'
-                },
-                name: {
-                    alias: '应用类型'
-                }
-            };
-            var applicationType_count =JSON.parse('{!! $applicationType_count !!}');
-            chart.source(applicationType_count, colDefs);
-            chart.interval().position(Stat.summary.mean('name*count')).color('name');
-            chart.render();
-
-            var chart = new G2.Chart({
-                id: 'c3',
-                forceFit: true,
-                height: 500,
-                plotCfg: {
-                    margin: [20, 100, 60, 80]
-                }
-            });
-            // 配置列定义,设置y轴的最小值
-            var colDefs = {
-                count: {
-                    min: 0,
-                    alias: '总数'
-                },
-                realname: {
-                    alias: '人员'
-                }
-            };
-            var users_count=JSON.parse('{!! $users_count !!}');
 
 
-            chart.source(users_count, colDefs);
-            chart.interval().position(Stat.summary.mean('realname*count')).color('realname');
-            chart.render();
-
+            $('.btn-group button:first').trigger('click');
 
         })
     </script>

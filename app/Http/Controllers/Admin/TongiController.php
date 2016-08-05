@@ -94,13 +94,31 @@ class TongiController extends Controller
      */
     public function getFiles(){
         $data['all_count']=File::count();//统计用户所有文件
-        $data['subject_count']=json_encode($this->getFilesSubject());//文件按学科统计
-        $data['applicationType_count']=json_encode($this->getFilesApplicationType());//文件按文件类型统计
-        $users_count=DB::table('edu_user_file_push as eufp')->leftJoin('edu_user_info as eui','eui.uid','=','eufp.uid')
-            ->select(DB::raw('count(*) as count'),'eui.realname')
-            ->GroupBy('eufp.uid')->orderBy('count','DESC')->take(10)->get();//前十名上传文件最多数目
-        $data['users_count']=json_encode($users_count);
+        $data['all_push_count']=FilePush::count();//统计用户已经发布文件数
+
         return view('admin/tongji/files',$data);
+    }
+
+    /**
+     * ajax分类型请求文件统计
+     * @param $type 1文件按学科统计2文件按应用类型统计3文件按学科统计
+     */
+    public function getFilesByType(Request $Request){
+        $type=$Request->input('type',1);
+        switch($type){
+            case 1://文件按学科统计
+                $data=$this->getFilesSubject();
+                break;
+            case 2://文件按文件类型统计
+                $data=$this->getFilesApplicationType();
+                break;
+            case 3://前十名上传文件最多数目;
+                $data=$users_count=DB::table('edu_user_file_push as eufp')->leftJoin('edu_user_info as eui','eui.uid','=','eufp.uid')
+                    ->select(DB::raw('count(*) as count'),'eui.realname as name')
+                    ->GroupBy('eufp.uid')->orderBy('count','DESC')->take(10)->get();
+                break;
+        }
+        return $this->response($data);
     }
     /**
      * 用户已经发布的文件，按学科统计
@@ -112,7 +130,7 @@ class TongiController extends Controller
         if($subjectTree){
             foreach($subjectTree as $key=>$value){
                 $subject[$key]['id']=$value->id;
-                $subject[$key]['subject_name']=$value->subject_name;
+                $subject[$key]['name']=$value->subject_name;
                 $subject[$key]['count']=0;
                 if($value->child){
                     foreach($value->child as $child){

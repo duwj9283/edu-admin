@@ -208,7 +208,7 @@ tr.current{background-color: #f5f5f5;}
             }
             else
             {
-                artInfo('拒绝失败失败')
+                artInfo('拒绝失败失败');
                 return false;
             }
         })

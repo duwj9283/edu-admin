@@ -194,7 +194,7 @@ tr.current{background-color: #f5f5f5;}
 
     $('.f_fail').on('click',function(){
         var id=$(this).data('id');
-        $('#myModal').html(template('tplFileFail',{title:'添加拒绝原因',id:id})).modal('show');
+        $('#myModal2').html(template('tplFileFail',{title:'添加拒绝原因',id:id})).modal('show');
         return false;
     });
 
@@ -304,7 +304,7 @@ tr.current{background-color: #f5f5f5;}
             var date=$(this).data('date');
             var fileNAmeArr = name.split('.');
             var fileFormat = fileNAmeArr[fileNAmeArr.length - 1];
-            var url = 'rtmp://www.ahlll.net:1938/vod/'+fileFormat+':publicpool/'+uid+'/'+date+'/'+name;
+            var url = 'rtmp://lubo.iemaker.cn:1935/vod/'+fileFormat+':publicpool/'+uid+'/'+date+'/'+name;
             video(url,fid);
         }
         else if(type==3)
@@ -325,7 +325,7 @@ tr.current{background-color: #f5f5f5;}
         jwplayer('preview').setup({
             flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
             file:fUrl,
-            image: 'http://www.ahlll.net/api/source/getPublicImageThumb/'+fId+'/738/400',
+            image: 'http://lubo.iemaker.cn/api/source/getPublicImageThumb/'+fId+'/738/400',
             width: '100%',
             height:'400',
             //aspectratio:"4:3",
@@ -337,14 +337,14 @@ tr.current{background-color: #f5f5f5;}
     }
     function pdf(fId)
     {
-        var file = "http://www.ahlll.net/api/file/filePreview/"+fId;
+        var file = "http://lubo.iemaker.cn/api/file/filePreview/"+fId;
         var htmlStr = "<iframe id='iframe-pdf' src="+file+"></iframe>";
         $('#preview').append(htmlStr);
     }
 
     function image(fId)
     {
-        var file = "http://www.ahlll.net/api/source/getPublicImageThumb/"+fId+'/738/400';
+        var file = "http://lubo.iemaker.cn/api/source/getPublicImageThumb/"+fId+'/738/400';
         var htmlStr = "<img style='display:block;margin:0 auto' src="+file+"/>";
 
         $('#preview').html(htmlStr);

@@ -220,17 +220,17 @@ tr.current{
                         if(type=='parent'){
                             if(visible=='block')
                             {
-                                $('#tblDataList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
-                                obj.removeClass('btn-warning').addClass('btn-primary');
-                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                                obj.find('i').text(' 显示');
-                            }
-                            else
-                            {
                                 $('#tblDataList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye"></i>');
                                 obj.removeClass('btn-primary').addClass('btn-warning');
                                 obj.find('i').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
                                 obj.find('i').text(' 隐藏');
+                            }
+                            else
+                            {
+                                $('#tblDataList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
+                                obj.removeClass('btn-warning').addClass('btn-primary');
+                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                                obj.find('i').text(' 显示');
                             }
                             getChild();
                         }
@@ -238,17 +238,18 @@ tr.current{
                         {
                             if(visible=='block')
                             {
-                                $('#tblDataChildList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
-                                obj.removeClass('btn-warning').addClass('btn-primary');
-                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                                obj.find('i').text(' 显示');
-                            }
-                            else
-                            {
                                 $('#tblDataChildList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye"></i>');
                                 obj.removeClass('btn-primary').addClass('btn-warning');
                                 obj.find('i').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
                                 obj.find('i').text(' 隐藏');
+
+                            }
+                            else
+                            {
+                                $('#tblDataChildList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
+                                obj.removeClass('btn-warning').addClass('btn-primary');
+                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                                obj.find('i').text(' 显示');
                             }
                         }
                         return false;

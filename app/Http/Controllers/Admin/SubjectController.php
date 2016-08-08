@@ -128,7 +128,7 @@ class SubjectController extends Controller
     public function postVisible(Request $request)
     {
         $id = $request->input('id', 0);
-        $visible = $request->input('visible')=='blcok'?1:2;
+        $visible = $request->input('visible')=='block'?1:2;
         $type = $request->input('type');
         DB::beginTransaction();
         if ($id) {

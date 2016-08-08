@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
-
+use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subject;
@@ -21,56 +21,61 @@ class SubjectController extends Controller
 
     public function getIndex(Request $request)
     {
-        $data['parents']=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集list
-        return view('admin.subject.index',$data);
+        $data['parents'] = Subject::where('father_id', 0)->orderBy('id')->get()->toArray();//得到所有父集list
+        return view('admin.subject.index', $data);
     }
 
     /**
      * 由father_id得到子集list
      */
-    public function getFatherList(){
-        $father=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集list
+    public function getFatherList()
+    {
+        $father = Subject::where('father_id', 0)->orderBy('id')->get();//得到所有父集list
         return $this->response($father);
     }
 
     /**
      * 由father_id得到子集list
      */
-    public function getChildList(Request $request){
-        $id=$request->input('id');
-        $child=Subject::where('father_id',$id)->orderBy('id')->get();//得到所有父集list
+    public function getChildList(Request $request)
+    {
+        $id = $request->input('id');
+        $child = Subject::where('father_id', $id)->orderBy('id')->get();//得到所有父集list
         return $this->response($child);
     }
 
     /*
      * 保存提交
      */
-    public function postEdit(Request $request){
-        $id=$request->input('id',0);
-        if($id){
-            $Subject=Subject::find($id);
+    public function postEdit(Request $request)
+    {
+        $id = $request->input('id', 0);
+        if ($id) {
+            $Subject = Subject::find($id);
 
-        }else{
-            $Subject=new Subject;
-            $Subject->father_id=$request->input('father_id');
-            $Subject->addtime=date('Y-m-d H:i:s');
+        } else {
+            $Subject = new Subject;
+            $Subject->father_id = $request->input('father_id');
+            $Subject->addtime = date('Y-m-d H:i:s');
 
         }
-        $Subject->subject_name=$request->input('name');
-        $Subject->subject_code=$request->input('code');
+        $Subject->subject_name = $request->input('name');
+        $Subject->subject_code = $request->input('code');
         $Subject->save();
         return $this->response($Subject);
     }
+
     /*
      * 删除
      */
-    public function postDelete(Request $request){
-        $id=$request->input('id');
-        if(Subject::where('father_id',$id)->count()>0){
+    public function postDelete(Request $request)
+    {
+        $id = $request->input('id');
+        if (Subject::where('father_id', $id)->count() > 0) {
             return $this->error('请先删除子集！');
 
         }
-        if(Subject::find($id)->delete()){
+        if (Subject::find($id)->delete()) {
             return $this->response(true);
         }
 
@@ -81,45 +86,67 @@ class SubjectController extends Controller
     /**
      * ajax得到所有学科list parents=>child
      */
-    public function getListByAjax(Request $request){
-        $list=Subject::getListByTree();
+    public function getListByAjax(Request $request)
+    {
+        $list = Subject::getListByTree();
         return $this->response($list);
     }
 
     /*
      * 下载所有二级专业
      */
-    public function getDownload(){
-        $parents=Subject::where('father_id',0)->orderBy('id')->lists('subject_name','id');//得到所有父集list
-        $childs=Subject::where('father_id','!=',0)->orderBy('id')->get();//得到所有子集list
-        if($childs){
-            foreach($childs as $key=>$value){
-                if(isset($parents[$value->father_id])){
-                    $childs[$key]->father=$parents[$value->father_id];
+    public function getDownload()
+    {
+        $parents = Subject::where('father_id', 0)->orderBy('id')->lists('subject_name', 'id');//得到所有父集list
+        $childs = Subject::where('father_id', '!=', 0)->orderBy('id')->get();//得到所有子集list
+        if ($childs) {
+            foreach ($childs as $key => $value) {
+                if (isset($parents[$value->father_id])) {
+                    $childs[$key]->father = $parents[$value->father_id];
                 }
             }
-            Excel::create('学科专业', function($excel) use($childs){
+            Excel::create('学科专业', function ($excel) use ($childs) {
 
-                $excel->sheet('学科专业', function($sheet) use($childs){
+                $excel->sheet('学科专业', function ($sheet) use ($childs) {
                     // Manipulate first row
                     $sheet->row(1, array(
                         'ID', '学科', '专业'
                     ));
-                    foreach($childs as $key=>$value){
-                        $sheet->row($key+2, array(
+                    foreach ($childs as $key => $value) {
+                        $sheet->row($key + 2, array(
                             $value->id, $value->father, $value->subject_name
                         ));
                     }
-                    // Manipulate 2nd row
-
-
                 });
-
-
-
-
             })->export('xls');
         }
+    }
 
-}
+    /*
+     * 显示/隐藏
+     */
+    public function postVisible(Request $request)
+    {
+        $id = $request->input('id', 0);
+        $visible = $request->input('visible')=='blcok'?1:2;
+        $type = $request->input('type');
+        DB::beginTransaction();
+        if ($id) {
+            $Subject = Subject::find($id);
+        }
+        $Subject->visible = $visible;
+        if(!$Subject->save()){
+            DB::rollback();
+        }
+        if($type=='parent')
+        {
+            $update = Subject::where('father_id',$id)->update(['visible' => $visible]);
+            if(!$update)
+            {
+                DB::rollback();
+            }
+        }
+        DB::commit();
+        return 1;
+    }
 }

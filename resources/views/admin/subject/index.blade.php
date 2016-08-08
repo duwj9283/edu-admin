@@ -30,16 +30,32 @@
                                 <th>#</th>
                                 <th>学科码</th>
                                 <th>名称</th>
+                                <th>是否显示</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($parents as $key=> $value)
+
                                 <tr data-id="{{$value['id']}}" >
                                     <td>{{$key+1}}</td>
                                     <td>{{$value['subject_code']}}</td>
                                     <td>{{$value['subject_name']}}</td>
-                                    <td><a href="javascript:;" class="js-edit" data-type="parent"><i class="fa fa-edit">编辑</i></a></td>
+                                    <td>
+                                        @if($value['visible']==1)
+                                            <i class="fa fa-eye"></i>
+                                        @else
+                                            <i class="fa fa-eye-slash"></i>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" class="js-edit btn btn-info btn-sm" data-type="parent"><i class="fa fa-edit"> 编辑</i></a>
+                                        @if($value['visible']==1)
+                                            <a href="javascript:;" data-visible="none" class="js-visible btn btn-warning btn-sm" data-type="parent"><i class="fa fa-eye-slash"> 隐藏</i></a>
+                                        @else
+                                        <a href="javascript:;" data-visible="block" class="js-visible btn btn-primary btn-sm" data-type="parent"><i class="fa fa-eye"> 显示</i></a>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -67,6 +83,7 @@
                                 <th>#</th>
                                 <th>学科码</th>
                                 <th>子集名称</th>
+                                <th>是否显示</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -130,7 +147,9 @@ tr.current{
                 var html='';
                 if(data.length>0){
                     for(var i=0;i<data.length;i++){
-                        html+='<tr data-id="'+data[i].id+'"><td>'+(i+1)+'</td><td>'+data[i].subject_code+'</td><td>'+data[i].subject_name+'</td><td><a href="javascript:;" class="js-edit" data-type="child"><i class="fa fa-edit">编辑</i></a>  | <a href="javascript:;" class="js-delete" data-type="child"><i class="fa fa-trash">删除</i></a></td></tr>'
+                        var visible_status = data[i].visible==1?'<i class="fa fa-eye"></i>':'<i class="fa fa-eye-slash"></i>';
+                        var visible_act = data[i].visible==1?'<a href="javascript:;" data-visible="none" class="js-visible btn btn-warning btn-sm" data-type="child"><i class="fa fa-eye-slash"> 隐藏</i></a>':'<a href="javascript:;" class="js-visible btn btn-primary btn-sm" data-visible="block" data-type="child"><i class="fa fa-eye"> 显示</i></a>';
+                        html+='<tr data-id="'+data[i].id+'"><td>'+(i+1)+'</td><td>'+data[i].subject_code+'</td><td>'+data[i].subject_name+'</td><td>'+visible_status+'</td><td><a href="javascript:;" class="js-edit btn btn-info btn-sm" data-type="child"><i class="fa fa-edit"> 编辑</i></a> '+visible_act+' <a href="javascript:;" class="js-delete btn btn-danger btn-sm" data-type="child"><i class="fa fa-trash"> 删除</i></a></td></tr>'
                     }
                 }
                 $('#tblDataChildList tbody').html(html);
@@ -169,7 +188,7 @@ tr.current{
                 content: '确定删除么？',
                 okValue: '确定',
                 ok: function () {
-                    this.close()    ;
+                    this.close();
                     $.post('/admin/subject/delete',{id:id},function(){
                         if(type=='child'){
                             $('#tblDataChildList tbody tr[data-id="'+id+'"]').remove();
@@ -184,6 +203,64 @@ tr.current{
                 cancel: function () {}
             }).show();
         });
+
+        //设置不可见
+        $('.ibox-content').delegate('.js-visible','click',function(){
+            var obj = $(this);
+            var visible = $(this).data('visible');
+            var type=$(this).data('type');
+            var id=(type=='child')?($(this).parents('tr').data('id')):parentId;
+            var d = dialog({
+                title: '提示',
+                content: visible=='block'?'确定显示':'确定隐藏'+'？',
+                okValue: '确定',
+                ok: function () {
+                    this.close();
+                    $.post('/admin/subject/visible',{id:id,type:type,visible:visible},function(){
+                        if(type=='parent'){
+                            if(visible=='block')
+                            {
+                                $('#tblDataList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye"></i>');
+                                obj.removeClass('btn-primary').addClass('btn-warning');
+                                obj.find('i').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                                obj.find('i').text(' 隐藏');
+                            }
+                            else
+                            {
+                                $('#tblDataList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
+                                obj.removeClass('btn-warning').addClass('btn-primary');
+                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                                obj.find('i').text(' 显示');
+                            }
+                            getChild();
+                        }
+                        else
+                        {
+                            if(visible=='block')
+                            {
+                                $('#tblDataChildList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye"></i>');
+                                obj.removeClass('btn-primary').addClass('btn-warning');
+                                obj.find('i').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                                obj.find('i').text(' 隐藏');
+
+                            }
+                            else
+                            {
+                                $('#tblDataChildList tbody tr[data-id="'+id+'"]').find('td:eq(3)').html('<i class="fa fa-eye-slash"></i>');
+                                obj.removeClass('btn-warning').addClass('btn-primary');
+                                obj.find('i').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                                obj.find('i').text(' 显示');
+                            }
+                        }
+                        return false;
+                    }).fail(failure);
+                    return false;
+                },
+                cancelValue: '取消',
+                cancel: function () {}
+            }).show();
+        });
+
         //新建
         $('.ibox-content').delegate('.js-add','click',function(){
             var type=$(this).data('type');

@@ -28,7 +28,7 @@ var artInfo = function(data) {
   }).show();
   setTimeout(function() {
     d.close().remove();
-  }, 1000);
+  }, 3000);
 };
 
 var artTabs = function (bar, className, index) {

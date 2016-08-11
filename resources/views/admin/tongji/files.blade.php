@@ -84,13 +84,7 @@
                 type=$(this).data('type');
                 $.get('/admin/tongji/files-by-type',{type:type},function(data){
                     chart.clear();
-                    if(type==1){
-                        name='学科';
-                    }else if(type==2){
-                        name='应用类型';
-                    }else if(type==3){
-                        name='人员';
-                    }
+                    var name=(type==1)?'学科':((type==2)?'应用类型':'人员');
                     // 配置列定义,设置y轴的最小值
                     var colDefs = {
                         count: {

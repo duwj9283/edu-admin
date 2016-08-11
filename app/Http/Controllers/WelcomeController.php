@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mkapp;
 use App\Models\Mkappver;
 use App\Models\Newsclass;
+use App\Models\Device;
 
 class WelcomeController extends Controller
 {
@@ -38,5 +39,15 @@ class WelcomeController extends Controller
         $data["menulist"]= $menulist;
         $data["content"]= $content;*/
         return view('welcome', $data);
+    }
+
+    /**
+     * 导播台测试
+     */
+    public function getPlay(){
+        $id=6;//测试 edu_device id
+        $data['device']=Device::find($id);
+        $data['famIdArr']=[3=>'华文行楷',5=>'华文琥珀',6=>'华文彩云',8=>'黑体常规',11=>'微软雅黑'];//字体库
+        return view('play',$data);
     }
 }

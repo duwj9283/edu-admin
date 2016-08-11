@@ -131,19 +131,35 @@ class SubjectController extends Controller
         $visible = $request->input('visible')=='block'?1:2;
         $type = $request->input('type');
         DB::beginTransaction();
-        if ($id) {
+        if ($id)
+        {
             $Subject = Subject::find($id);
-        }
-        $Subject->visible = $visible;
-        if(!$Subject->save()){
-            DB::rollback();
         }
         if($type=='parent')
         {
+            $Subject->visible = $visible;
+            if(!$Subject->save()){
+                DB::rollback();
+            }
             $update = Subject::where('father_id',$id)->update(['visible' => $visible]);
             if(!$update)
             {
                 DB::rollback();
+            }
+        }
+        else
+        {
+            $fatherSubject = Subject::find($Subject->father_id)->toArray();
+            if($visible==1&&$fatherSubject['visible']==2)
+            {
+                return 0;
+            }
+            else
+            {
+                $Subject->visible = $visible;
+                if(!$Subject->save()){
+                    DB::rollback();
+                }
             }
         }
         DB::commit();

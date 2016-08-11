@@ -35,7 +35,6 @@ class AccountController extends Controller
                 return $this->error('验证码错误,请重新输入');
             }
         }
-        //sha1(md5(password)+"sdkjf*^#HRGF*")
 
         $user = WebUser::where('username', $username)->first();
         if (empty($user)) {
@@ -49,11 +48,12 @@ class AccountController extends Controller
             return $this->error('此用户已被管理员禁用');
         }
         $hide = false;
+        $userInfo= WebUserInfo::where('uid',$user->uid)->first();
 
         $data = [
             'user_id' => $user->uid,
             'username' => $user->username,
-            'realname' => WebUserInfo::where('uid',$user->uid)->lists('realname'),
+            'realname' => $userInfo->realname,
             'isHidden' => $hide,
         ];
         Session::put('token', $data);

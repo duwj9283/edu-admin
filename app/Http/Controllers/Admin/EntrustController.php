@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\WebUser;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -155,5 +156,19 @@ class EntrustController extends Controller
             return $this->warning('无效的角色');
         }
         return view('admin/entrust/role_users', compact('role'));
+    }
+
+    /**
+     * 根据成员得到所属角色
+     */
+    public function getUsersRoleList($user_id = 0)
+    {
+        $user = WebUser::find($user_id);
+        $userRole = $user->roles->map(function($role){
+            return $role->id;
+        })->toArray();
+        $roles_rows = Role::orderBy('id', 'ASC')->get();
+
+        return view('admin/entrust/users_role', compact('user','userRole', 'roles_rows'));
     }
 }

@@ -28,6 +28,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">账号</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="username" class="form-control" required="" value="{{$detail['username']}}" placeholder="请输入您的账号" @if($detail['uid']) disabled @endif>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">手机号</label>
                             <div class="col-sm-8">
                                 <input type="tel" name="phone" class="form-control" required="" value="{{$detail['phone']}}" placeholder="请输入您的手机号">
@@ -99,6 +106,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group" id="subject-select">
+                            <label class="col-sm-2 control-label">学科管理</label>
+                            <div class="col-sm-8">
+                                @foreach($subject as $sub)
+                                    <label class="checkbox-inline i-checks"> <input type="checkbox" name="admin_subject[]" value="{{$sub->id}}" @if(strstr($detail['admin_subject'],(string)$sub->id)) checked @endif>{{$sub->subject_name}}</label>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group ">
                             <div class="col-sm-4 col-sm-offset-2">
@@ -117,17 +132,20 @@
 
 @endsection
 @section('pageheader')
+    <link href="{{cdn1('assets/iCheck/custom.css')}}" rel="stylesheet">
 
 @endsection
 @section('pagescript')
+    <script src="{{cdn1('assets/iCheck/icheck.min.js')}}"></script>
     <script src="{{cdn1('assets/cityselect/jquery.cityselect.js')}}"></script>
     <script src="{{cdn1('assets/subjectselect/jq.subselect.js')}}"></script>
 
     <script>
         $(function(){
 
-            $(".sidebar-collapse li[rel='webuser']").addClass("active");
-            /*
+            $("#side-menu li[rel='entrust']").addClass("active")
+                    .find("ul").addClass("in")
+                    .find("li[rel='user']").addClass("active");            /*
              * 省市二级联动
              * ie select问题
              * */
@@ -164,9 +182,14 @@
 
 
             var saveResult=function(data){
+
                 window.location.href="{{url('admin/webuser/teacher')}}";
             }
 
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
         })
     </script>
 @endsection

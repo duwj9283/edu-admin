@@ -48,6 +48,8 @@
                                     @else
                                         <a href="javascript:void(0)" class="js-disable" data-status="0"><i class="fa   fa-times-circle">禁用</i></a>
                                     @endif
+                                    <a href="javascript:void(0)" class="role-set" ><i class="fa  fa-user">角色分配</i></a>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -91,10 +93,15 @@
         </div>
     </div>
 </div>
+
+<div class="modal inmodal" id="myModalDiv" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
 @endsection
 
 @section('pageheader')
-<style>
+    <link href="{{cdn1('assets/iCheck/custom.css')}}" rel="stylesheet">
+
+    <style>
 tr.current{
     background-color: #f5f5f5;
 }
@@ -102,11 +109,13 @@ tr.current{
 @endsection
 
 @section('pagescript')
+    <script src="{{cdn1('assets/iCheck/icheck.min.js')}}"></script>
 
     <script type="text/javascript">
         $(function(){
-            $(".sidebar-collapse li[rel='webuser']").addClass("active");
-
+            $("#side-menu li[rel='entrust']").addClass("active")
+                    .find("ul").addClass("in")
+                    .find("li[rel='user']").addClass("active");
 
             //导入
             $('.js-import').click(function(){
@@ -161,6 +170,15 @@ tr.current{
                     cancel: function () {}
                 }).show();
 
+            })
+
+            //角色分配
+            $('.role-set').click(function(){
+                var id=$(this).parents('tr').data('id');
+                $.get('/admin/entrust/users-role-list/'+id,function(html){
+                    $('#myModalDiv').html(html).modal('show');
+
+                })
             })
         })
 

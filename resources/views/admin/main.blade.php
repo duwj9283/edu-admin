@@ -1,6 +1,6 @@
 <?php
 $token = session('token');
-$user = App\Models\User::find($token['user_id']);
+$user = App\Models\WebUser::find($token['user_id']);
 $meta_title = App\Models\Siteconfig::where('option_name', 'meta_title')->pluck('option_value');
 ?>
 <!DOCTYPE html>

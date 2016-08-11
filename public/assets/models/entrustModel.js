@@ -73,6 +73,10 @@ define(function(require, exports, module) {
         removePerm: function(data, result, fail) {
             var url = '/api/entrust/remove-perm';
             return model.postData(url, data, result, fail);
+        },
+        updateUsersRole: function (data, result, fail) {
+            var url = '/api/entrust/add-member-role';
+            return model.postData(url, data, result, fail);
         }
     };
     module.exports = facade;

@@ -48,13 +48,16 @@ class WebUserController extends Controller
     {
         $id=$request->input('id');
         $detail=$id?(WebUser::leftJoin('edu_user_info as ui','ui.uid','=','edu_user.uid')->select('edu_user.username','edu_user.phone','edu_user.role_id','ui.*')->where('edu_user.uid',$id)->first()):(new WebUser);//得到所有list
+
         if($detail->subject){
             list($subject_parent,$subject_child)=Subject::getNameById($detail->subject,'child');
         }
+        $data['subject']=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集学科list
         $data['subject_parent']=isset($subject_parent)?$subject_parent->subject_name:'';
         $data['subject_child']=isset($subject_child)?$subject_child->subject_name:'';
         $data['detail']=$detail;
         $data['roles']=WebUserRole::where('id','!=',1)->get();//去掉学生
+
         return view('admin.web-user.add',$data);
     }
 
@@ -62,6 +65,7 @@ class WebUserController extends Controller
     * 保存提交
     */
     public function postAdd(Request $request){
+
         $v = Validator::make($request->all(), [
             'role_id' => 'required',
             'phone' => 'required',
@@ -76,6 +80,7 @@ class WebUserController extends Controller
 
         $uid = intval($request->input('uid'));
         $role_id = $request->input('role_id');
+        $username = $request->input('username');
         $phone = $request->input('phone');
         $email = $request->input('email');
         $sex = $request->input('sex');
@@ -87,9 +92,14 @@ class WebUserController extends Controller
         $city = $request->input('city');
         $job = $request->input('job');
         $subject = $request->input('subject');
+        $admin_subject = $request->input('admin_subject');
         if(!isMobile($phone)){
             return $this->error('请填写正确的手机号');
 
+        }
+        $exist_username=$uid?(WebUser::where('username',$username)->where('uid','!=',$uid)->count()):(WebUser::where('username',$username)->count());
+        if($exist_username>0){
+            return $this->error('账号已经存在');
         }
         $exist_phone=$uid?(WebUser::where('phone',$phone)->where('uid','!=',$uid)->count()):(WebUser::where('phone',$phone)->count());
         if($exist_phone>0){
@@ -109,6 +119,7 @@ class WebUserController extends Controller
             $userinfo =WebUserInfo::where('uid',$uid)->first();
         }else{
             $user = new WebUser;
+            $user->username = $username;
             $user->reg_time = date('Y-m-d H:i:s');
             $user->password = '$2a$08$vLDj4vNtYVkX4X13nIhPjO2jfVkAip1Cec2L253pOHTJptTCaitdS';//默认为123456
             $userinfo = new WebUserInfo;
@@ -117,6 +128,7 @@ class WebUserController extends Controller
         $user->email = $email;
         $user->role_id = $role_id;
         $user->save();
+        $userinfo->admin_subject = !empty($admin_subject)?implode(',',$admin_subject):'';
         $userinfo->uid = $user->uid;
         $userinfo->role_id = $role_id;
         $userinfo->email = $email;
@@ -129,6 +141,7 @@ class WebUserController extends Controller
         $userinfo->city = $prov.','.$city;
         $userinfo->subject = $subject;
         $userinfo->save();
+
         return $this->response($user);
     }
 

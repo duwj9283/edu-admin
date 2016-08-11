@@ -529,5 +529,20 @@ class EntrustController extends Controller
         }
         return $this->response('ok');
     }
-
+    /**
+     * 增加用户角色
+     */
+    public function postAddMemberRole(Request $request)
+    {
+        $role_id = intval($request->input('role_id'));
+        $user_id = intval($request->input('user_id'));
+        $role = Role::find($role_id);
+        $user = User::find($user_id);
+        if ($user->hasRole($role->name) == false) {
+            $user->roles()->attach($role_id);
+        }else{
+            $user->roles()->detach($role_id);
+        }
+        return $this->response('ok');
+    }
 }

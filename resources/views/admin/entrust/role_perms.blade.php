@@ -1,18 +1,6 @@
-@extends('admin.main')
 
-@section('content')
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-sm-4">
-            <h2>{{$role->display_name}} <small>{{$role->name}}</small></h2>
-            <strong>{{$role->description}}</strong>
-        </div>
-    </div>
+
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="m-b">
-            <a href="javascript:;" onclick="history.back()" class="btn btn-default m-r">
-                <i class="fa fa-arrow-left"></i> 返回列表
-            </a>
-        </div>
         <div class="ibox">
             <div class="ibox-title">
                 <h5><span class="text-danger">{{$role->display_name}}</span>权限列表 <small>请勾选为其授权</small></h5>
@@ -51,14 +39,9 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('pageheader')
-    <link href="{{cdn1('assets/iCheck/custom.css')}}" rel="stylesheet">
-@endsection
 
-@section('pagescript')
-    <script src="{{cdn1('assets/iCheck/icheck.min.js')}}"></script>
+
     <script>
         $("#side-menu li[rel='entrust']").addClass("active")
             .find("ul").addClass("in")
@@ -87,4 +70,3 @@
             });
         });
     </script>
-@endsection

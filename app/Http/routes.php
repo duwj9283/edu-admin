@@ -42,4 +42,4 @@ Route::group(['name' => 'help'], function () {
 });
 
 Route::any('ueditor', 'UEditorController@index');
-Route::get('play', 'WelcomeController@getPlay');
+Route::get('play/{id}', 'WelcomeController@getPlay');

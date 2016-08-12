@@ -6,6 +6,7 @@ use App\Models\Mkapp;
 use App\Models\Mkappver;
 use App\Models\Newsclass;
 use App\Models\Device;
+use App\Models\ClassRoom;
 
 class WelcomeController extends Controller
 {
@@ -42,11 +43,17 @@ class WelcomeController extends Controller
     }
 
     /**
-     * 导播台测试
+     * 导播台
+     * @param $id 表edu_class_room id
      */
-    public function getPlay(){
-        $id=6;//测试 edu_device id
-        $data['device']=Device::find($id);
+    public function getPlay($id=0){
+
+        $data['device']=Device::leftJoin("edu_class_room as cr",'cr.device_id','=','edu_device.id')
+                        ->where('cr.id',$id)->select("edu_device.*")->first();
+        if(!$data['device']){
+            return $this->warning('无效的房间');
+
+        }
         $data['famIdArr']=[3=>'华文行楷',5=>'华文琥珀',6=>'华文彩云',8=>'黑体常规',11=>'微软雅黑'];//字体库
         return view('play',$data);
     }

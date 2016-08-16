@@ -31,11 +31,30 @@ class WebUserController extends Controller
      */
     public function getTeacher(Request $request)
     {
+        $data['keyword']=$keyword=trim($request->input('keyword'));
         $data['roles']=WebUserRole::lists('role_name','id');
-        $data['lists']=WebUser::leftJoin('edu_user_info as ui','ui.uid','=','edu_user.uid')
-                    ->whereIn('edu_user.role_id',[2,3])//1学生 2教师 3	学科管理员
-                    ->select('edu_user.username','edu_user.phone','edu_user.role_id','edu_user.disable','ui.*')
-                    ->orderBy('edu_user.uid')->paginate(20);//得到所有list
+        $query=WebUser::leftJoin('edu_user_info as ui','ui.uid','=','edu_user.uid')
+                    ->whereIn('edu_user.role_id',[2,3]);//1学生 2教师 3	学科管理员
+        if($keyword){
+            $query->where(function($query) use($keyword){
+                $query->where('ui.realname','like','%'.$keyword.'%')
+                    ->orWhere('ui.email','like','%'.$keyword.'%')
+                    ->orWhere('edu_user.phone','like','%'.$keyword.'%');
+            });
+        }
+        $data['lists']=$query->select('edu_user.username','edu_user.phone','edu_user.role_id','edu_user.disable','ui.*')
+            ->orderBy('edu_user.uid')->paginate(20);//得到所有list
+        if($data['lists']){
+            foreach($data['lists'] as $key=>$list){
+                $roles=[];
+                foreach($list->roles as $key1=>$value){
+                    $roles[$key1]=$value->display_name;
+                }
+                $data['lists'][$key]->roles=$roles;
+
+            }
+        }
+
         return view('admin.web-user.index',$data);
     }
 

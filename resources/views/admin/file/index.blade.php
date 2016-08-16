@@ -55,7 +55,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="javascript:;" data-type="{{$value['file_type']}}" data-fid="{{$value['user_file_id']}}" data-name="{{$value['push_file_name']}}" data-uid="{{$value['uid']}}" data-date="{{$value['push_date_folder']}}" data-id="{{$value['id']}}"  class="f_search btn btn-primary btn-xs"> <i class="fa fa-search"></i>
+                                        <a href="javascript:;" data-type="{{$value['file_type']}}" data-fid="{{$value['user_file_id']}}" data-fmd5="{{$value['file_md5']}}" data-name="{{$value['push_file_name']}}" data-uid="{{$value['uid']}}" data-date="{{$value['push_date_folder']}}" data-id="{{$value['id']}}"  class="f_search btn btn-primary btn-xs"> <i class="fa fa-search"></i>
                                             查看
                                         </a>
                                         @if($value['status']==0)
@@ -297,6 +297,7 @@ tr.current{background-color: #f5f5f5;}
         var id=$(this).data('id');
         var type=$(this).data('type');
         var fid=$(this).data('fid');
+        var fmd5=$(this).data('fmd5');
         if(type==2)
         {
             var uid=$(this).data('uid');
@@ -313,7 +314,7 @@ tr.current{background-color: #f5f5f5;}
         }
         else if(type==4)
         {
-            audio(fid);
+            audio(fid,fmd5);
         }
         else if(type==5)
         {
@@ -324,23 +325,20 @@ tr.current{background-color: #f5f5f5;}
         $('#myModal').modal('show');
         return false;
     });
-    function audio(fId)
+    function audio(fId,fmd5)
     {
-        $.getJSON('http://lubo.iemaker.cn/api/file/adminfileMp3Preview?callback=?',{file_id:fId},function(result){
-            jwplayer('preview').setup({
-                flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
-                file:result.data.path,
-                image: 'http://lubo.iemaker.cn/img/frontend/tem_material/audio.png',
-                width: '100%',
-                height:'400',
-                //aspectratio:"4:3",
-                dock: false,
-                skin: {
-                    name: "vapor"
-                }
-            });
+        jwplayer('preview').setup({
+            flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
+            file:'http://lubo.iemaker.cn/mp3/'+fId+'/'+fmd5+'.mp3',
+            image: 'http://lubo.iemaker.cn/img/frontend/tem_material/audio.png',
+            width: '100%',
+            height:'400',
+            //aspectratio:"4:3",
+            dock: false,
+            skin: {
+                name: "vapor"
+            }
         });
-
     }
     function video(fUrl,fId)
     {

@@ -228,7 +228,7 @@ class WebUserController extends Controller
             }
             $user = new WebUser;
             $user->reg_time = date('Y-m-d H:i:s');
-            $user->password = '$2a$08$vLDj4vNtYVkX4X13nIhPjO2jfVkAip1Cec2L253pOHTJptTCaitdS';
+            $user->password = '690534bf801de16dffcdaeb9da84c059b33f68c7';
             $userinfo = new WebUserInfo;
             $user->username = $user->phone = $value[1];
             $user->email = $value[2];
@@ -278,20 +278,9 @@ class WebUserController extends Controller
     public function postPwd(Request $request)
     {
         $uid = $request->input('uid');
-        $timestamp = time();
-        $auth_token = md5($uid.'Pwd$&*WIND758U'.$timestamp);
-
-        $frontend = config('services.frontend');
-
-        $url= $frontend['url']."api/user/resetPassword?uid=$uid&password=123456&auth_token=$auth_token&timestamp=$timestamp";
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $res = curl_exec($ch);
-        curl_close($ch);
-        $result = json_decode($res,true);
-        if($result['code']==0)
+        $user = WebUser::find($uid);
+        $user->password = '690534bf801de16dffcdaeb9da84c059b33f68c7';
+        if($user->save())
         {
             return $this->response(true);
         }

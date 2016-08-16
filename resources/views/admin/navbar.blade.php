@@ -100,14 +100,17 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li rel="role">
-                        <a href="{{url('admin/entrust/role-list')}}">角色管理</a>
+                        <a href="{{url('admin/entrust/role-list')}}">角色权限分配</a>
                     </li>
                     <li rel="user">
+                        <a href="{{url('admin/webuser/teacher')}}">用户管理</a>
+                    </li>
+                    {{--<li rel="user">
                         <a href="{{url('admin/entrust/user-list')}}">用户管理</a>
                     </li>
                     <li rel="permission">
                         <a href="{{url('admin/entrust/perm-list')}}">权限管理</a>
-                    </li>
+                    </li>--}}
                     <li rel="siteconfig">
                         <a href="{{url('admin/sitecfg/meta-set')}}">站点配置</a>
                     </li>
@@ -146,11 +149,11 @@
                 </li>
             @endif
             @if($user->can('teacher'))
-            <li rel="webuser">
+            {{--<li rel="webuser">
                 <a href="{{url('admin/webuser/teacher')}}"> <i class="fa fa-graduation-cap"></i>
                     <span class="nav-label">教师账号管理</span>
                 </a>
-            </li>
+            </li>--}}
             @endif
             @if($user->can('student'))
             <li rel="webuser-s">
@@ -222,6 +225,9 @@
                     <ul class="nav nav-second-level">
                         <li rel="1">
                             <a href="{{url('admin/tongji/users')}}">用户统计</a>
+                        </li>
+                        <li rel="2">
+                            <a href="{{url('admin/tongji/files')}}">文件统计</a>
                         </li>
                     </ul>
                 </li>

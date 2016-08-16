@@ -80,7 +80,7 @@ return [
     | User Foreign key on Entrust's role_user Table (Pivot)
     |--------------------------------------------------------------------------
      */
-    'user_foreign_key' => 'admin_id',
+    'user_foreign_key' => 'uid',
 
     /*
     |--------------------------------------------------------------------------

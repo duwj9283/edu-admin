@@ -194,7 +194,7 @@ tr.current{background-color: #f5f5f5;}
 
     $('.f_fail').on('click',function(){
         var id=$(this).data('id');
-        $('#myModal').html(template('tplFileFail',{title:'添加拒绝原因',id:id})).modal('show');
+        $('#myModal2').html(template('tplFileFail',{title:'添加拒绝原因',id:id})).modal('show');
         return false;
     });
 
@@ -208,7 +208,7 @@ tr.current{background-color: #f5f5f5;}
             }
             else
             {
-                artInfo('拒绝失败失败')
+                artInfo('拒绝失败失败');
                 return false;
             }
         })
@@ -304,12 +304,16 @@ tr.current{background-color: #f5f5f5;}
             var date=$(this).data('date');
             var fileNAmeArr = name.split('.');
             var fileFormat = fileNAmeArr[fileNAmeArr.length - 1];
-            var url = 'rtmp://www.ahlll.net:1938/vod/'+fileFormat+':publicpool/'+uid+'/'+date+'/'+name;
+            var url = 'rtmp://lubo.iemaker.cn:1935/vod/'+fileFormat+':publicpool/'+uid+'/'+date+'/'+name;
             video(url,fid);
         }
         else if(type==3)
         {
             image(fid);
+        }
+        else if(type==4)
+        {
+            audio(fid);
         }
         else if(type==5)
         {
@@ -320,12 +324,30 @@ tr.current{background-color: #f5f5f5;}
         $('#myModal').modal('show');
         return false;
     });
+    function audio(fId)
+    {
+        $.getJSON('http://lubo.iemaker.cn/api/file/adminfileMp3Preview?callback=?',{file_id:fId},function(result){
+            jwplayer('preview').setup({
+                flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
+                file:result.data.path,
+                image: 'http://lubo.iemaker.cn/img/frontend/tem_material/audio.png',
+                width: '100%',
+                height:'400',
+                //aspectratio:"4:3",
+                dock: false,
+                skin: {
+                    name: "vapor"
+                }
+            });
+        });
+
+    }
     function video(fUrl,fId)
     {
         jwplayer('preview').setup({
             flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
             file:fUrl,
-            image: 'http://www.ahlll.net/api/source/getPublicImageThumb/'+fId+'/738/400',
+            image: 'http://lubo.iemaker.cn/api/source/getPublicImageThumb/'+fId+'/738/400',
             width: '100%',
             height:'400',
             //aspectratio:"4:3",
@@ -337,18 +359,16 @@ tr.current{background-color: #f5f5f5;}
     }
     function pdf(fId)
     {
-        var file = "http://www.ahlll.net/api/file/filePreview/"+fId;
+        var file = "http://lubo.iemaker.cn/api/file/filePreview/"+fId;
         var htmlStr = "<iframe id='iframe-pdf' src="+file+"></iframe>";
         $('#preview').append(htmlStr);
     }
 
     function image(fId)
     {
-        var file = "http://www.ahlll.net/api/source/getPublicImageThumb/"+fId+'/738/400';
+        var file = "http://lubo.iemaker.cn/api/source/getPublicImageThumb/"+fId+'/738/400';
         var htmlStr = "<img style='display:block;margin:0 auto' src="+file+"/>";
-
         $('#preview').html(htmlStr);
-        console.log($('#preview'));
     }
 </script>
 @endsection

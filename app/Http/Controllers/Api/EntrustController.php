@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\WebUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -529,5 +530,20 @@ class EntrustController extends Controller
         }
         return $this->response('ok');
     }
-
+    /**
+     * 增加用户角色
+     */
+    public function postAddMemberRole(Request $request)
+    {
+        $role_id = intval($request->input('role_id'));
+        $user_id = intval($request->input('user_id'));
+        $role = Role::find($role_id);
+        $user = WebUser::find($user_id);
+        if ($user->hasRole($role->name) == false) {
+            $user->roles()->attach($role_id);
+        }else{
+            $user->roles()->detach($role_id);
+        }
+        return $this->response('ok');
+    }
 }

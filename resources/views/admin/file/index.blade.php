@@ -314,7 +314,7 @@ tr.current{background-color: #f5f5f5;}
         }
         else if(type==4)
         {
-            audio(fid,fmd5);
+            audio(uid,fmd5);
         }
         else if(type==5)
         {
@@ -325,11 +325,11 @@ tr.current{background-color: #f5f5f5;}
         $('#myModal').modal('show');
         return false;
     });
-    function audio(fId,fmd5)
+    function audio(uid,fmd5)
     {
         jwplayer('preview').setup({
             flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
-            file:'http://lubo.iemaker.cn/mp3/'+fId+'/'+fmd5+'.mp3',
+            file:'http://lubo.iemaker.cn/mp3/'+uid+'/'+fmd5+'.mp3',
             image: 'http://lubo.iemaker.cn/img/frontend/tem_material/audio.png',
             width: '100%',
             height:'400',

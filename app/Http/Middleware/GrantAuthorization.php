@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Models\WebUser;
 use Closure;
 
 class GrantAuthorization
@@ -16,7 +16,7 @@ class GrantAuthorization
                 return view('admin/login');
             }
         }
-        $user = User::find($token['user_id']);
+        $user = WebUser::find($token['user_id']);
         if ($user->can($perm) == false) {
             if ($request->ajax()) {
                 return response()->json('Access denied.', 400);

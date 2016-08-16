@@ -10,6 +10,7 @@ use App\Models\FileInfo;
 use App\Models\ApplicationType;
 use App\Models\WebUserInfo;
 use App\Models\User;
+use App\Models\WebUser;
 use App\Models\Dynamic;
 use App\Models\Message;
 use App\Models\Messagestatus;
@@ -33,7 +34,7 @@ class FileController extends Controller
         $file_type = (int)$request->input('file_type');
         $status = isset($status)?(int)$status:-1;
         $token=Session::get('token');//取session
-        $user=User::find($token['user_id']);//登录人
+        $user=WebUserInfo::where('uid',$token['user_id'])->first();//登录人
         $limit = 20;
         $query = FilePush::select('*');
         if($status>=0)
@@ -49,8 +50,8 @@ class FileController extends Controller
             $query->where('file_type', $file_type);
         }
         $subject=[];//此登录账号 能查看的学科数组
-        if($user->subject){//文件按着管理人的学科查询,管理账号绑定的是subjec 第一级
-            $subject=Subject::whereIn('father_id',explode(',',$user->subject))->lists('id')->toArray();
+        if($user->admin_subject){//文件按着管理人的学科查询,管理账号绑定的是subjec 第一级
+            $subject=Subject::whereIn('father_id',explode(',',$user->admin_subject))->lists('id')->toArray();
         }
         $query->whereIn('subject_id', $subject);
         $result=$query->orderBy('addtime','desc')->paginate($limit);

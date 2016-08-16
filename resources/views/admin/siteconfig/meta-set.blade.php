@@ -52,11 +52,12 @@
               <select id="channelSelector" class="form-control" style="width:auto;">
                 <option value="">- 请选择频道 -</option>
                 <option value="site_banner1">发现</option>
-                <option value="site_banner2">资源</option>
-                <option value="site_banner3">课程</option>
-                <option value="site_banner4">微课</option>
-                <option value="site_banner5">直播</option>
-                <option value="site_banner6">空间</option>
+                <option value="site_banner2">资源中心</option>
+                <option value="site_banner3">在线课程</option>
+                <option value="site_banner4">直播课堂</option>
+                <option value="site_banner5">精品微课</option>
+                <option value="site_banner6">名师空间</option>
+                <option value="site_banner7">公告中心</option>
               </select>
             </div>
             <div id="tblBannerList"></div>

@@ -19,9 +19,10 @@ class Subject extends Model
     public $timestamps=false;
     /**
      * 以树状结构返回list
+     * @param $visible [int] 0全部 1可见2不可见
      */
-    static function getListByTree(){
-        $parents=self::where('father_id',0)->get();//得到所有父集list
+    static function getListByTree($visible=0){
+        $parents=$visible?(self::where('father_id',0)->where('visible',$visible)->get()):(self::where('father_id',0)->get());//得到所有父集list
         $child=[];
         if($parents){
             $parents_ids=[];//所有父集id
@@ -29,7 +30,8 @@ class Subject extends Model
                 array_push($parents_ids,$value->id);
             }
             //print_R($parents_ids);
-            $childs=self::whereIn('father_id',$parents_ids)->get();//得到所有子集，因为只有两层，此处写死
+            $childs=$visible?(self::whereIn('father_id',$parents_ids)->where('visible',$visible)->get()):(self::whereIn('father_id',$parents_ids)->get());
+            //得到所有子集，因为只有两层，此处写死
             //print_R($childs);
             if($childs){
                 foreach($childs as $value1){

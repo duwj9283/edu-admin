@@ -21,8 +21,6 @@ body{
 }
 .header{
     background: #fff;
-    height: 200px;
-
 }
 .top-header{
     padding-bottom: 15px;
@@ -65,7 +63,6 @@ body{
 .content{
     background: #cfcfcf;
     width: 100%;
-    height: 720px;
     padding:10px 0 10px 10px;
 }
 .top{
@@ -113,16 +110,19 @@ body{
     margin-right: 10px;
 }
 .bot{
-    height: 200px;
     margin-top: 20px;
+    margin-left: -5px;
 }
 
 .bot ul li{
     list-style: none;
-    width: 24%;
+    width: 300px;
     float: left;
-    margin-right: 10px;
+    padding:0 5px;
+    box-sizing: border-box;
 }
+.bot ul li .title{ padding-right: 10px; }
+.bot ul li input{ float: right;margin-top: 12px;}
 .bot ul li:nth-child(4){
     margin-right: 0;
 }
@@ -133,8 +133,10 @@ body{
     height: 168px;
     width: 100%;
 }
+.flash-wrap{ overflow: hidden; width: 1200px; height: 168px; background-color: #cfcfcf; position: relative;}
+#j-flashArea-detail-player{ position: absolute; left: 0; top: 0;}
+.flash-wrap .flash-box{box-sizing: border-box; position: relative; z-index: 3; width: 300px; height: 100%; float: left; border:5px solid #cfcfcf;}
 .title{
-    width: 100%;
     height: 35px;
     line-height: 35px;
     background: #126472;
@@ -174,7 +176,7 @@ body{
 }
 .hand-title{
     position: absolute;
-    left:10px;
+    left:25px;
     top:30px;
     width: 20px;
     font-size: 17px;
@@ -185,6 +187,16 @@ body{
     left: 65px;
     top:15px;
     height: 110px;
+}
+.hand-bro .ul-box .current:before{
+    position: absolute;
+    right: 0;
+    top:0;
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #f15173;
 }
 .hand-bro .ul-box li{
     float: left;
@@ -402,6 +414,9 @@ span{
     font-size: 18px;
     border-radius: 5px;
     cursor:pointer;
+}
+.right-cloud ul li:active{
+    background-color: #eee;
 }
 .scale_panel{
     font-size:12px;

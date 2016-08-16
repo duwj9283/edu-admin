@@ -15,24 +15,7 @@
 <body>
 <div class="header">
     <div class="warp-width">
-        <div class="top-header"><img src="/assets/play/images/logo.png" alt=""></div>
-        <div class="bot-header">
-            <div class="left-nav">
-                <ul>
-                    <li><a href="">发现丨</a></li>
-                    <li><a href="">资源丨</a></li>
-                    <li><a href="">课程丨</a></li>
-                    <li><a href="">直播丨</a></li>
-                    <li><a href="">微课丨</a></li>
-                    <li><a href="">活动丨</a></li>
-                    <li><a href="">群组丨</a></li>
-                </ul>
-            </div>
-            <div class="right-nav">
-                <span>啦啦啦</span>
-                <a href=""><i></i></a>
-            </div>
-        </div>
+        <div class="top-header"><img src="/assets/play/images/logo.png" width="300" alt=""></div>
     </div>
 </div>
 <div class="main">
@@ -65,19 +48,20 @@
                             <li class="active info-cont-title">字幕</li>
                             <li class="info-set-title">台标</li>
                             <li class="info-cloud-title">云台</li>
+                            <li class="info-lx-title">录像</li>
                         </ul>
                         <div class="info-cont">
                             <form name="subtitle" onsubmit="return false">
                                 <label class="mui-music">
                                     <input class="mui-switch mui-switch-anim" type="checkbox" @if($device['subtitle_status']==1) checked @endif>
                                 </label><span>使用字幕</span>
-                                <div class="select">
+                                <div class="select row">
                                     <span>颜色：</span>
                                     <!--<input type="button" value="FF0000" class="color-bar" id="unique-id-4" name="unique-name-4" value="accent">-->
                                     <input class="color color-bar" value="{{$device['subtitle_color']}}" style="width:50px" name="txt_col">
                                     <span>字体：</span>
                                     <div class="btn-group" style="margin-right:0; display:inline-block;">
-                                        <select  name="fam_id">
+                                        <select  name="fam_id" style="width: 125px; margin: 0;">
                                             @foreach($famIdArr as $id =>$value)
                                             <option value="{{$id}}" @if($device['subtitle_fam_id']==$id) selected @endif>{{$value}}</option>
                                             @endforeach
@@ -139,6 +123,8 @@
                             </div>
 
                         </div>
+                        <div class="info-lx" style="display:none;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,7 +155,7 @@
             <div class="bot">
                 <ul>
                     <li>
-                        <div class="title"><span></span>老师<input  type="checkbox" value="2" name="winMode"></div>
+                        <div class="title"><input  type="checkbox" value="2" name="winMode"><span></span>老师</div>
                     </li>
                     <li>
                         <div class="title"><span></span>学生<input type="checkbox" value="2" name="winMode"></div>
@@ -180,8 +166,15 @@
                     <li>
                         <div class="title"><span></span>VGA<input type="checkbox" value="2" name="winMode"></div>
                     </li>
+                    <div style="clear: both"></div>
                 </ul>
-                <div id="j-flashArea-detail-player"></div>
+                <div class="flash-wrap">
+                    <div class="flash-box"></div>
+                    <div class="flash-box"></div>
+                    <div class="flash-box"></div>
+                    <div class="flash-box"></div>
+                    <div id="j-flashArea-detail-player"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -292,8 +285,8 @@
             stream_name: 'stream7',
             preview: '/assets/previewVideo-small.swf',
             id: 'j-flashArea-detail-player',
-            width: '100%',
-            height: '100%'
+            width: '1800px',
+            height: '168px'
         });
     })
 </script>

@@ -86,11 +86,13 @@ class FileController extends Controller
             $fileInfos = File::whereIn('id', $fileIdArr)->get();
             foreach($fileInfos as $fileInfo)
             {
-                $fileInfoArr[$fileInfo->id] = fileSizeConv($fileInfo->file_size);
+                $fileInfoArr[$fileInfo->id]['file_size'] = fileSizeConv($fileInfo->file_size);
+                $fileInfoArr[$fileInfo->id]['file_md5'] = $fileInfo->file_md5;
             }
             foreach($fileList as $k=>$v)
             {
-                $fileList[$k]['file_size'] = $fileInfoArr[$v['user_file_id']];
+                $fileList[$k]['file_size'] = $fileInfoArr[$v['user_file_id']]['file_size'];
+                $fileList[$k]['file_md5'] = $fileInfoArr[$v['user_file_id']]['file_md5'];
             }
         }
         $data['status'] = $status;

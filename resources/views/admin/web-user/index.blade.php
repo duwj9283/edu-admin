@@ -76,7 +76,7 @@
 
                     <div class="form-group">
 
-                        <a href="{{asset('upload/web-user-import-template.xls')}}" target="_blank">导入模板下载</a> |
+                        <a href="{{asset('web-user-import-template.xls')}}" target="_blank">导入模板下载</a> |
                         <a href="/admin/subject/download" >学科专业库下载</a>
                     </div>
                     <div class="form-group">

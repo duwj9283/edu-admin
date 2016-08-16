@@ -124,7 +124,7 @@ class TongiController extends Controller
      * 用户已经发布的文件，按学科统计
      */
     private function getFilesSubject(){
-        $subjectTree=Subject::getListByTree();//得到所有学科父集=》子集
+        $subjectTree=Subject::getListByTree(1);//得到所有学科父集=》子集
         //得到对应subject_id 下count数目
         $fileBySubject=DB::table('edu_user_file_push')->GroupBy('subject_id')->lists(DB::raw('count(*) as count'),'subject_id');
         if($subjectTree){

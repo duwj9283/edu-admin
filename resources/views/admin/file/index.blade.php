@@ -311,6 +311,10 @@ tr.current{background-color: #f5f5f5;}
         {
             image(fid);
         }
+        else if(type==4)
+        {
+            audio(fid);
+        }
         else if(type==5)
         {
             pdf(fid);
@@ -320,6 +324,24 @@ tr.current{background-color: #f5f5f5;}
         $('#myModal').modal('show');
         return false;
     });
+    function audio(fId)
+    {
+        $.getJSON('http://lubo.iemaker.cn/api/file/adminfileMp3Preview?callback=?',{file_id:fId},function(result){
+            jwplayer('preview').setup({
+                flashplayer: '{{cdn1('assets/jwplay/jwplayer.flash.swf')}}',
+                file:result.data.path,
+                image: 'http://lubo.iemaker.cn/img/frontend/tem_material/audio.png',
+                width: '100%',
+                height:'400',
+                //aspectratio:"4:3",
+                dock: false,
+                skin: {
+                    name: "vapor"
+                }
+            });
+        });
+
+    }
     function video(fUrl,fId)
     {
         jwplayer('preview').setup({
@@ -346,9 +368,7 @@ tr.current{background-color: #f5f5f5;}
     {
         var file = "http://lubo.iemaker.cn/api/source/getPublicImageThumb/"+fId+'/738/400';
         var htmlStr = "<img style='display:block;margin:0 auto' src="+file+"/>";
-
         $('#preview').html(htmlStr);
-        console.log($('#preview'));
     }
 </script>
 @endsection

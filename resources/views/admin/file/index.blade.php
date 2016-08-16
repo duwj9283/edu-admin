@@ -298,9 +298,9 @@ tr.current{background-color: #f5f5f5;}
         var type=$(this).data('type');
         var fid=$(this).data('fid');
         var fmd5=$(this).data('fmd5');
+        var uid=$(this).data('uid');
         if(type==2)
         {
-            var uid=$(this).data('uid');
             var name=$(this).data('name');
             var date=$(this).data('date');
             var fileNAmeArr = name.split('.');

@@ -143,7 +143,7 @@ class WebUserController extends Controller
             $user->password = '$2a$08$vLDj4vNtYVkX4X13nIhPjO2jfVkAip1Cec2L253pOHTJptTCaitdS';//默认为123456
             $userinfo = new WebUserInfo;
         }
-        $user->username = $user->phone = $phone;
+        $user->phone = $phone;
         $user->email = $email;
         $user->role_id = $role_id;
         $user->save();

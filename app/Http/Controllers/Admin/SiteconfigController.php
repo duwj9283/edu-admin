@@ -43,7 +43,7 @@ class SiteconfigController extends Controller
     public function getBannerList(Request $request)
     {
         $option_name = strval($request->input('option_name'));
-        if (!in_array($option_name, ['site_banner1', 'site_banner2', 'site_banner3', 'site_banner4', 'site_banner5', 'site_banner6'])) {
+        if (!in_array($option_name, ['site_banner1', 'site_banner2', 'site_banner3', 'site_banner4', 'site_banner5', 'site_banner6', 'site_banner7'])) {
             return $this->error('无效的频道');
         }
 

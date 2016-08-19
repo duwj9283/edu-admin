@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Models\Siteconfig;
 use App\Models\WebUser;
 use Closure;
 
@@ -13,7 +14,8 @@ class GrantAuthorization
             if ($request->ajax()) {
                 return response()->json('Unauthorized.', 400);
             } else {
-                return view('admin/login');
+                $title = Siteconfig::where('option_name', 'meta_title')->pluck('option_value');
+                return view('admin/login')->withTitle($title);
             }
         }
         $user = WebUser::find($token['user_id']);

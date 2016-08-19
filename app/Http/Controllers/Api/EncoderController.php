@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device;
-
+use App\Models\Live;
 use Illuminate\Http\Request;
 
 class EncoderController extends Controller
@@ -19,10 +19,17 @@ class EncoderController extends Controller
         //print_R($Request->all());
         $this->validate($Request, [
             'action' => 'required',
-            'ip' => 'required',
+            'live' => 'required',
         ]);
         $action=$Request->input('action');
-        $ip=$Request->input('ip');//编码器地址
+        $liveId=$Request->input('live');//edu_live表id
+        $live=Live::find($liveId);
+        if(!$live){
+            return $this->error("参数有误，请重新操作！");
+        }
+        $deviceObj=Device::leftJoin('edu_class_room as cr','cr.device_id','=','edu_device.id')
+                ->where('cr.id',$live->class_room_id)->select('edu_device.*')->first();//设备信息
+
         $to=0;//默认调用cs接口 为1调用des接口
         $device=[];//edu_device 表需要更新的字段
         switch($action){
@@ -98,30 +105,46 @@ class EncoderController extends Controller
                 $device['rtmp_status']=$enable;
                 break;
             case 7://设置录制任务状态
+
                 $status=$Request->input('status',1);//控制录制任务的状态，1表示开始、2表示结束、3表示暂停、4表示继续
+
                 $file=$status==1?(date('YmdHis').substr(time(),-5)):'';//仅名称不带路径，只有在任务开始(状态=1)时有，其它时候不用
                 //收到录制开始命令后，同时对编码混屏流进行录制，录制为mp4文件，所存放路径为/mnt/video,每1小时产生一个文件，以下划线加序号自动递增
                 $buf = pack("CvCa".strlen($file), config('encoder.SET_RECORD_STATUS'), 1+strlen($file), $status, $file);
                 $device['record_status']=$status;
+
                 if($status==1){
                     $device['record_time']=time();
-
+                    $device['record_name']=date('YmdHis').substr(time(),-5).'.flv';
+                    $recordRes=$this->streamRecord($device['record_name'],'start',$live->uid);//开始录制
                 }else if($status==2){
                     $device['record_time']='';
+                    $device['record_name']='';//重置录制名称为空
+                    $recordRes=$this->streamRecord($deviceObj->record_name,'stop',$live->uid);//结束录制
+                }
+                if($recordRes['code']!=0){
+                    return $this->error($recordRes['msg']);
+                }
+                if($status==2){//录制结束接口调用成功后，调用前台接口存储
+                    $storeRes=$this->storeRecord($deviceObj->record_name,$live->uid);
+                    if($storeRes['code']!=0){
+                        return $this->error('保存录制：'.$storeRes['msg']);
+                    }
+
                 }
                 break;
 
         }
         if($to>0){
-            $result=$this->SendSocketMsgDES($buf,$ip);
+            $result=$this->SendSocketMsgDES($buf,$deviceObj->ip);
 
         }else{
-            $result=$this->SendSocketMsgCS($buf,$ip);
+            $result=$this->SendSocketMsgCS($buf,$deviceObj->ip);
 
         }
         if($result){
             if(!empty($device)){
-                Device::updateParam($ip,$device);//更新设备字段
+                Device::updateParam($deviceObj,$device);//更新设备字段
             }
             return $this->response(true);
         }
@@ -171,4 +194,30 @@ class EncoderController extends Controller
         return true;
     }
 
+    /**
+     * 调用录制接口
+     * @param $name [string] 录制名称
+     * @param $stauts [string] 录制状态 start 开始 stop停止
+     * @param $uid [int] 用户id
+     */
+    function streamRecord($name,$stauts='start',$uid){
+        $streamPath='rtmp://lubo.iemaker.cn/live/test1';
+        $recordPath='/home/debian/www/upload/'.$uid.'/';
+        $recordIp='127.0.0.1';
+        $recordPort='5001';
+        $url='http://'.$recordIp.':'.$recordPort.'/?streamPath='.$streamPath.'&recordPath='.$recordPath.$name.'&command='.$stauts;
+        $result=json_decode(curlPost($url,'GET'),true);
+
+        return $result;
+    }
+    /**
+     * 存储录制接口
+     * @param $name [string] 录制名称
+     * @param $uid [int] 用户id
+     */
+    function storeRecord($name,$uid){
+        $url='http://lubo.iemaker.cn/api/file/recordBox';
+        $result=json_decode(curlPost($url,'POST',['uid'=>$uid,'file_name'=>$name]),true);
+        return $result;
+    }
 }

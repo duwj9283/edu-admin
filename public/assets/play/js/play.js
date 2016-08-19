@@ -2,16 +2,17 @@
 *导播控制台js
  */
 var ip=$('#player').data('ip');//ip地址
+var live=$('#player').data('live');
 
 //调用编码器接口
 var setEncoder=function(data,result){
-
 	data.ip=ip;
-
+	data.live=live;
 	$.post('/api/encoder/set',data,result).fail(failure);
 };
 var failure = function(data) {
 	var str = getStringByArray(data);
+
 	dialog({
 		content: '<i class="fa fa-info-circle"></i> ' + str,
 		ok: true,
@@ -20,16 +21,25 @@ var failure = function(data) {
 	return false;
 };
 var getStringByArray=function(data){
+
 	if(typeof(data) == 'string'){
 		return data;
 	}
 	if(typeof(data) == 'object'){
-		for(i in data.responseJSON){
-
-			return data.responseJSON[i][0];
+		if(typeof(data.responseJSON) == 'string'){
+				return data.responseJSON;
 
 		}
-	}
+		if(typeof(data.responseJSON) == 'object'){
+			for(i in data.responseJSON){
+
+				return data.responseJSON[i][0];
+
+			}
+		}
+
+		}
+
 
 
 }
@@ -195,6 +205,7 @@ var record_time_fromat='00:00:00';//录制格式化后
 if(record_time>0){//如果正在录制
 	recordTime=setInterval(setRecordTime,1000);
 	record_time_fromat=get_format_time(record_time);
+	record_status=1;
 	$('#play-record-time').html("录制中 ["+record_time_fromat+"]");
 }
 

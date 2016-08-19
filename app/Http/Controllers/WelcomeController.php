@@ -5,8 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mkapp;
 use App\Models\Mkappver;
 use App\Models\Newsclass;
-use App\Models\Device;
-use App\Models\ClassRoom;
+use App\Models\Live;
 
 class WelcomeController extends Controller
 {
@@ -44,12 +43,13 @@ class WelcomeController extends Controller
 
     /**
      * 导播台
-     * @param $id 表edu_class_room id
+     * @param $id 表edu_live id
      */
     public function getPlay($id=0){
-
-        $data['device']=Device::leftJoin("edu_class_room as cr",'cr.device_id','=','edu_device.id')
-                        ->where('cr.id',$id)->select("edu_device.*")->first();
+        $data['device']=Live::leftJoin("edu_class_room as cr",'cr.id','=','edu_live.class_room_id')
+            ->leftJoin("edu_device as d",'cr.device_id','=','d.id')
+            ->where('edu_live.id',$id)->select("d.*")->first();
+        $data['liveId']=$id;
         if(!$data['device']){
             return $this->warning('无效的房间');
 

@@ -71,7 +71,7 @@ class WebUserController extends Controller
         if($detail->subject){
             list($subject_parent,$subject_child)=Subject::getNameById($detail->subject,'child');
         }
-        $data['subject']=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集学科list
+        $data['subject']=Subject::where('father_id',0)->where('visible',1)->orderBy('id')->get();//得到所有父集学科list
         $data['subject_parent']=isset($subject_parent)?$subject_parent->subject_name:'';
         $data['subject_child']=isset($subject_child)?$subject_child->subject_name:'';
         $data['detail']=$detail;

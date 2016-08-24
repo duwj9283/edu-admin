@@ -199,7 +199,7 @@ $('#play-RTMP').click(function(){
 });
 /*****************************************直播-E*******************************************/
 /*****************************************录制-S*******************************************/
-var record_status=2;//录制状态 2默认值停止录制 1开始录制 3暂停录制 4继续录制
+var record_status=0;//录制状态 2默认值停止录制 1开始录制 3暂停录制 4继续录制
 var record_time=parseInt($('#player').data('record'));//录制时长
 var record_time_fromat='00:00:00';//录制格式化后
 if(record_time>0){//如果正在录制
@@ -246,7 +246,7 @@ function setRecordTime() {
 $('#play-record').click(function(){
 	var $this=$(this);
 	switch(record_status){
-		case 2:
+		case 0:
 			record_status=1;//开始录制
 			setEncoder({action:7,status:record_status},function(){
 				recordTime=setInterval(setRecordTime,1000);//开始计算录制时间
@@ -263,6 +263,9 @@ $('#play-record').click(function(){
 				$('#play-record-time').html("未录制 ["+record_time_fromat+"]");//更改录制显示
 				$('#play-pause-record').html("暂停");//录制后面按钮内容 改为“暂停”
 			});
+			break;
+		case 2:
+			failure('已结录制结束！');
 			break;
 	}
 

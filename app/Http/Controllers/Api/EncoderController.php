@@ -203,7 +203,7 @@ class EncoderController extends Controller
     function streamRecord($name,$stauts='start',$uid){
         $streamPath='rtmp://lubo.iemaker.cn/live/test1';
         $recordPath='/home/debian/www/upload/'.$uid.'/';
-        $recordIp='192.168.1.32';
+        $recordIp='127.0.0.1';
         $recordPort='5001';
         $url='http://'.$recordIp.':'.$recordPort.'/?streamPath='.$streamPath.'&recordPath='.$recordPath.$name.'&command='.$stauts;
         $result=json_decode(curlPost($url,'GET'),true);

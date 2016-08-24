@@ -115,7 +115,7 @@ class EncoderController extends Controller
 
                 if($status==1){
                     $device['record_time']=time();
-                    $device['record_name']='[录像]'.$live->title.date('YmdHis').sprintf('%02d',rand(0,99)).'.flv';
+                    $device['record_name']=date('YmdHis').sprintf('%02d',rand(0,99)).'.flv';
                     $recordRes=$this->streamRecord($device['record_name'],'start',$live->uid);//开始录制
                 }else if($status==2){
                     $device['record_time']='';
@@ -203,7 +203,7 @@ class EncoderController extends Controller
     function streamRecord($name,$stauts='start',$uid){
         $streamPath='rtmp://lubo.iemaker.cn/live/test1';
         $recordPath='/home/debian/www/upload/'.$uid.'/';
-        $recordIp='127.0.0.1';
+        $recordIp='192.168.1.32';
         $recordPort='5001';
         $url='http://'.$recordIp.':'.$recordPort.'/?streamPath='.$streamPath.'&recordPath='.$recordPath.$name.'&command='.$stauts;
         $result=json_decode(curlPost($url,'GET'),true);

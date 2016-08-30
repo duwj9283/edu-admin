@@ -140,7 +140,7 @@ class WebUserController extends Controller
             $user = new WebUser;
             $user->username = $username;
             $user->reg_time = date('Y-m-d H:i:s');
-            $user->password = '$2a$08$vLDj4vNtYVkX4X13nIhPjO2jfVkAip1Cec2L253pOHTJptTCaitdS';//默认为123456
+            $user->password = '690534bf801de16dffcdaeb9da84c059b33f68c7';//默认为123456
             $userinfo = new WebUserInfo;
         }
         $user->phone = $phone;

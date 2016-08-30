@@ -27,11 +27,11 @@ class Device extends Model {
 
 	/**
 	 * 更新device 信息
-	 * @param ip [string] edu_device表ip
+	 * @param $device  edu_device表
 	 * @param data [array] 需要更新的字段数组
 	 */
-	static function updateParam($ip,$data){
-		$device=self::where('ip',$ip)->first();
+	static function updateParam($device,$data){
+
 		if(isset($data['win_type'])){
 			$device->win_type=$data['win_type'];
 		}
@@ -55,6 +55,9 @@ class Device extends Model {
 		}
 		if(isset($data['record_time'])){
 			$device->record_time=$data['record_time'];
+		}
+		if(isset($data['record_name'])){
+			$device->record_name=$data['record_name'];
 		}
 		$device->save();
 		return true;

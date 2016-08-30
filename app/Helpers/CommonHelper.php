@@ -302,14 +302,20 @@ if (!function_exists('postData')) {
 }
 
 if (!function_exists('curlPost')) {
-    function curlPost($url, $data = '', $header = array())
+    function curlPost($url,$method='POST', $data = '', $header = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        switch($method){
+            case 'GET':
+                break;
+            case 'POST':
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                break;
+        }
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
             curl_close($ch);

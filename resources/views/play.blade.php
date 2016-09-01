@@ -129,7 +129,10 @@
                 </div>
             </div>
             <div class="middle">
-                <button type="button" class="btn btn-default " id="play-RTMP" data-enable="{{$device['rtmp_status']}}">@if($device['rtmp_status']==1)直播：关@else直播：开@endif</button>
+                <div class="row">
+                    <div class="col-sm-1"><button type="button" class="btn btn-default " id="play-RTMP" data-enable="{{$device['rtmp_status']}}">@if($device['rtmp_status']==1)直播：关@else直播：开@endif</button></div>
+                </div>
+
                 <button type="button" class="btn btn-default btn-angle" id="play-record">@if($device['record_status']==2)录制@else停止@endif</button>
                 {{--<button type="button" class="btn btn-default btn-angle" id="play-pause-record" style="display:none">@if($device['record_status']==3)恢复@else暂停@endif</button>--}}
                 <span id="play-record-time">

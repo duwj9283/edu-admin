@@ -155,16 +155,16 @@
             <div class="bot">
                 <ul>
                     <li>
-                        <div class="title"><input  type="checkbox" value="2" name="winMode"><span></span>老师</div>
+                        <div class="title"><input  type="checkbox" value="2" name="winMode"><span></span>VGA</div>
+                    </li>
+                    <li>
+                        <div class="title"><span></span>老师<input type="checkbox" value="2" name="winMode"></div>
                     </li>
                     <li>
                         <div class="title"><span></span>学生<input type="checkbox" value="2" name="winMode"></div>
                     </li>
                     <li>
                         <div class="title"><span></span>板书<input type="checkbox" value="2" name="winMode"></div>
-                    </li>
-                    <li>
-                        <div class="title"><span></span>VGA<input type="checkbox" value="2" name="winMode"></div>
                     </li>
                     <div style="clear: both"></div>
                 </ul>

@@ -43,6 +43,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>昵称</th>
+                                <th>账号</th>
                                 <th>真实姓名</th>
                                 <th>手机号</th>
                                 <th>邮箱</th>
@@ -56,6 +57,7 @@
                                 <tr data-id="{{$value['uid']}}">
                                     <td>{{$key+1}}</td>
                                     <td>{{$value['nick_name']}}</td>
+                                    <td>{{$value['username']}}</td>
                                     <td>{{$value['realname']}}</td>
                                     <td>{{$value['phone']}}</td>
                                     <td>{{$value['email']}}</td>

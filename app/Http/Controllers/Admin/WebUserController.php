@@ -71,7 +71,7 @@ class WebUserController extends Controller
         if($detail->subject){
             list($subject_parent,$subject_child)=Subject::getNameById($detail->subject,'child');
         }
-        $data['subject']=Subject::where('father_id',0)->orderBy('id')->get();//得到所有父集学科list
+        $data['subject']=Subject::where('father_id',0)->where('visible',1)->orderBy('id')->get();//得到所有父集学科list
         $data['subject_parent']=isset($subject_parent)?$subject_parent->subject_name:'';
         $data['subject_child']=isset($subject_child)?$subject_child->subject_name:'';
         $data['detail']=$detail;
@@ -140,7 +140,7 @@ class WebUserController extends Controller
             $user = new WebUser;
             $user->username = $username;
             $user->reg_time = date('Y-m-d H:i:s');
-            $user->password = '$2a$08$vLDj4vNtYVkX4X13nIhPjO2jfVkAip1Cec2L253pOHTJptTCaitdS';//默认为123456
+            $user->password = '690534bf801de16dffcdaeb9da84c059b33f68c7';//默认为123456
             $userinfo = new WebUserInfo;
         }
         $user->phone = $phone;

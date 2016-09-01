@@ -115,7 +115,7 @@ class EncoderController extends Controller
 
                 if($status==1){
                     $device['record_time']=time();
-                    $device['record_name']=date('YmdHis').substr(time(),-5).'.flv';
+                    $device['record_name']=date('YmdHis').sprintf('%02d',rand(0,99)).'.flv';
                     $recordRes=$this->streamRecord($device['record_name'],'start',$live->uid);//开始录制
                 }else if($status==2){
                     $device['record_time']='';
@@ -126,7 +126,7 @@ class EncoderController extends Controller
                     return $this->error($recordRes['msg']);
                 }
                 if($status==2){//录制结束接口调用成功后，调用前台接口存储
-                    $storeRes=$this->storeRecord($deviceObj->record_name,$live->uid);
+                    $storeRes=$this->storeRecord($deviceObj->record_name,$live->id);
                     if($storeRes['code']!=0){
                         return $this->error('保存录制：'.$storeRes['msg']);
                     }
@@ -213,11 +213,11 @@ class EncoderController extends Controller
     /**
      * 存储录制接口
      * @param $name [string] 录制名称
-     * @param $uid [int] 用户id
+     * @param $live_id [int] edu_live表id
      */
-    function storeRecord($name,$uid){
+    function storeRecord($name,$live_id){
         $url='http://lubo.iemaker.cn/api/file/recordBox';
-        $result=json_decode(curlPost($url,'POST',['uid'=>$uid,'file_name'=>$name]),true);
+        $result=json_decode(curlPost($url,'POST',['live_id'=>$live_id,'file_name'=>$name]),true);
         return $result;
     }
 }

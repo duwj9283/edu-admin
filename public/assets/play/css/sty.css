@@ -154,13 +154,13 @@ body{
     left:15px;
     top:3px;
 }
-.bot ul li:nth-child(2) span{
+.bot ul li:nth-child(3) span{
     background-position:  -37px 0px;
 }
-.bot ul li:nth-child(3) span{
+.bot ul li:nth-child(4) span{
     background-position:  -74px 0px;
 }
-.bot ul li:nth-child(4) span{
+.bot ul li:nth-child(1) span{
     background-position:  -110px 0px;
 }
 .right{

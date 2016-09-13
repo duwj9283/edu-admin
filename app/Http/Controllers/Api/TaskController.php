@@ -24,6 +24,21 @@ class TaskController extends Controller
         }
     }
 
+    public function getQueue2(Request $request)
+    {
+        $limit = toLimitLng($request->input('limit'), 1);
+        $query = ConvertTask::where('status', -1);
+        $row = $query->orderBy('id', 'ASC')->first();
+        if(!empty($row))
+        {
+            return $this->response($row);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     /**
      * 任务处理结束
      */

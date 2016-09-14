@@ -33,13 +33,4 @@ class WelcomeController extends Controller
     {
         return view('admin/forgot');
     }
-
-    public function getTest()
-    {
-        DB::connection()->enableQueryLog();
-        $user = User::more()->first();
-        dump($user->toArray());
-        $queries = DB::getQueryLog();
-        dump($queries);
-    }
 }

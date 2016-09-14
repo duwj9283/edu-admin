@@ -7,6 +7,7 @@ use App\Models\Newsinfo;
 use App\Models\Newsinfopic;
 use App\Models\Newspopedom;
 use App\Models\User;
+use App\Models\WebUserInfo;
 use Illuminate\Http\Request;
 
 class NewsinfoController extends Controller
@@ -31,7 +32,7 @@ class NewsinfoController extends Controller
             $result['delete'] = ($popedom & 8) ? true : false;
         }
         $user_id = $token['user_id'];
-        $user = User::find($user_id);
+        $user = WebUserInfo::find($user_id);
         if ($user->hasRole('Administrators')) {
             $result = ['create' => true, 'update' => true, 'confirm' => true, 'delete' => true];
         }

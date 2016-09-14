@@ -112,8 +112,6 @@ class WebUserController extends Controller
         $job = $request->input('job');
         $subject = $request->input('subject');
         $admin_subject = $request->input('admin_subject');
-        print_r($admin_subject);
-        return $this->error('账号已经存在');
         if(!isMobile($phone)){
             return $this->error('请填写正确的手机号');
 

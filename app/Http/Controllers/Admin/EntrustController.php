@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\WebUser;
 use App\Models\Subject;
+use App\Models\WebUserInfo;
 use Illuminate\Http\Request;
 
 class EntrustController extends Controller
@@ -55,7 +56,7 @@ class EntrustController extends Controller
     public function getUserEdit(Request $request)
     {
         $id = intval($request->input('id'));
-        $user = User::find($id);
+        $user = WebUserInfo::find($id);
         if (empty($user)) {
             return $this->warning('无效的用户');
         }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\WebUserInfo;
+
 class ProfileController extends Controller
 {
     public function __construct()
@@ -17,7 +19,7 @@ class ProfileController extends Controller
     public function getIndex()
     {
         $user_id = session('token')['user_id'];
-        $user = User::find($user_id);
+        $user = WebUserInfo::find($user_id);
         $user->avatar = getPhoto($user_id);
         $user->subject_names='';
 

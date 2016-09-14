@@ -17,7 +17,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="{{url('admin/profile')}}"><i class="fa fa-user"></i> 个人资料</a></li>
+                        <li><a href="{{url('admin/webuser/add?id='.session('token')['user_id'])}}"><i class="fa fa-user"></i> 个人资料</a></li>
                         <li><a href="{{url('admin/profile/changepwd')}}"><i class="fa fa-key"></i> 修改密码</a></li>
                         <li class="divider"></li>
                         <li><a href="{{url('admin/logout')}}" onclick="return confirm('您确定要退出吗？');"><i class="fa fa-sign-out"></i> 退出</a></li>

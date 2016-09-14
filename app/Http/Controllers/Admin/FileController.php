@@ -141,7 +141,7 @@ class FileController extends Controller
             }
 
             $user_id = session('token')['user_id'];
-            $user = User::find($user_id);
+            $user = WebUserInfo::where("uid",$user_id)->first();
             $filePush->status=1;
             $filePush->verifyer=$user->realname;
             $filePush->verifytime=time();

@@ -71,6 +71,8 @@ class AppController extends Controller
             'img' => $headpic,
             'token' => $token_code,
         ];
+        print_r($data);
+        return;
         return $this->res($data);
     }
 

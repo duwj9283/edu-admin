@@ -75,7 +75,20 @@ if (!function_exists('randStr')) {
         return $str;
     }
 }
-
+if (!function_exists('to_limit_lng')) {
+    function to_limit_lng($num, $min = 0, $max = PHP_INT_MAX) {
+        $num = intval($num);
+        $min = intval($min);
+        $max = intval($max);
+        if ($num < $min) {
+            return $min;
+        }
+        if ($num > $max) {
+            return $max;
+        }
+        return $num;
+    }
+}
 /**
  * 10进制转2、8、16、36、62进制
  * @param int $num 要转换的数字

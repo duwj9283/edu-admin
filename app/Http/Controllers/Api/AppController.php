@@ -157,8 +157,7 @@ class AppController extends Controller
                 $images = explode('|',strstr($conn,"1.jpg"));
                 foreach($images as $image)
                 {
-                    $basename = strstr($image,".jpg",true);
-                    array_push($filesArr,'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/'.$basename);
+                    array_push($filesArr,'http://lubo.iemaker.cn/m/'.$row->uid.'/'.$row->id.'/'.$image);
                 }
             }
         }

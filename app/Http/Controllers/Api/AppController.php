@@ -119,16 +119,20 @@ class AppController extends Controller
                     $total = count($images);
                 }
             }
+            $frontCoverUrl = 'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/1';
+            if($row->file_type==3)
+            {
+                $frontCoverUrl = 'http://lubo.iemaker.cn/api/source/getImageThumb/'.$row->id.'/100/80';
+            }
             $data['file_rows'][] = [
                 'id' => $row->id,
                 'name' => $row->file_name,
                 'fileURL' => '',
                 'convertStatus' => 1,
-                'frontCoverUrl' => 'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/1',
+                'frontCoverUrl' => $frontCoverUrl,
                 'fileSize' => $row->file_size,
                 'createdAt' => date('Y-m-d H:i:s',$row->addtime),
-                'previewURL' => '',
-                'total' => $total,
+                'previewURL' => $total.'ҳ',
                 'content' => $row->intro,
             ];
         }

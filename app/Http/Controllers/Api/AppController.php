@@ -47,6 +47,8 @@ class AppController extends Controller
         $username = strval($request->input('username'));
         $password = strval($request->input('password'));
         $user = WebUser::where('username', $username)->first();
+        print_r($user->toArray());
+        return;
         if (empty($user)) {
             return $this->err('用户不存在');
         }

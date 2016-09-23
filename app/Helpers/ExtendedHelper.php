@@ -18,7 +18,27 @@ if (!function_exists('uri')) {
         return empty($url) ? asset($spare) : asset($url);
     }
 }
-
+/**
+ * 检查远程文件是否存在
+ */
+if (!function_exists('remote_file_exists')) {
+    function remote_file_exists($url) {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        $result = curl_exec($curl);
+        $is_exists = false;
+        if ($result !== false) {
+            $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($statusCode == 200) {
+                $is_exists = true;
+            } elseif ($statusCode == 304) {
+                $is_exists = true;
+            }
+        }
+        curl_close($curl);
+        return $is_exists;
+    }
+}
 /**
  * 检查远程文件是否存在
  */

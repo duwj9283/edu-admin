@@ -47,8 +47,6 @@ class AppController extends Controller
         $username = strval($request->input('username'));
         $password = strval($request->input('password'));
         $user = WebUser::where('username', $username)->first();
-        print_r($user->toArray());
-        return;
         if (empty($user)) {
             return $this->err('用户不存在');
         }
@@ -61,6 +59,8 @@ class AppController extends Controller
         {
             $headpic = "http://lubo.iemaker.cn/frontend/source/getFrontImageThumb/header/".$user->uid."/120/120";
         }
+        print_r($userInfo->toArray());
+        return;
         $token = new Token(['auth' => 'app']);
         $token_code = $token->set([
             'id' => $user->id,

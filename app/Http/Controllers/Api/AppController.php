@@ -132,8 +132,8 @@ class AppController extends Controller
                 'frontCoverUrl' => $frontCoverUrl,
                 'fileSize' => $row->file_size,
                 'createdAt' => date('Y-m-d H:i:s',$row->addtime),
-                'previewURL' => $total.'ҳ',
-                'content' => $row->intro,
+                'previewURL' => $total.'',
+                'content' => '',
             ];
         }
         return $this->res($data);

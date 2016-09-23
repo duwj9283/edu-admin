@@ -31,6 +31,7 @@ Route::group(['prefix' => 'api'], function () {
         'entrust' => 'Api\EntrustController',
         'subject' => 'Api\SubjectController',
         'encoder' => 'Api\EncoderController', //编码器接口
+        'app' => 'Api2\AppController'
     ]);
 });
 

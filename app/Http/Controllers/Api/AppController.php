@@ -46,7 +46,7 @@ class AppController extends Controller
     {
         $username = strval($request->input('username'));
         $password = strval($request->input('password'));
-        $user = WebUser::Where('username', $username)->first();
+        $user = WebUser::where('username', $username)->first();
         if (empty($user)) {
             return $this->err('用户不存在');
         }
@@ -71,8 +71,6 @@ class AppController extends Controller
             'img' => $headpic,
             'token' => $token_code,
         ];
-        print_r($data);
-        return;
         return $this->res($data);
     }
 

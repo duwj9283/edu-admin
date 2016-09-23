@@ -36,6 +36,8 @@ class AppController extends Controller
                 return $this->logOut($request);
             case 'pad.getMaterialList':
                 return $this->getMaterialList($request);
+            case 'pad.getMaterialFileIndex':
+                return $this->getMaterialFileIndex($request);
             default:
                 return $this->err('Invalid method!');
         }
@@ -137,6 +139,30 @@ class AppController extends Controller
             ];
         }
         return $this->res($data);
+    }
+
+    private function getMaterialFileIndex($request)
+    {
+        $id = intval($request->input('id'));
+        $row = File::find($id);
+        if (empty($row)) {
+            return $this->err('ÎÞÐ§µÄËØ²Ä');
+        }
+        $list_txt_file = '/home/debian/www/upload/previewpool/'.$row->uid.'/'.$row->id.'/List.txt';
+        $filesArr = array();
+        if (file_exists($list_txt_file)) {
+            if($fp=fopen($list_txt_file,"a+"))
+            {
+                $conn=fread($fp,filesize($list_txt_file));
+                $images = explode('|',strstr($conn,"1.jpg"));
+                foreach($images as $image)
+                {
+                    $basename = strstr($image,".jpg",true);
+                    array_push($filesArr,'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/'.$basename);
+                }
+            }
+        }
+        return $this->res(['list' => $filesArr]);
     }
 
     /**

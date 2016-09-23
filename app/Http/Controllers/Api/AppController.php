@@ -109,15 +109,24 @@ class AppController extends Controller
 
         $data['file_rows'] = [];
         foreach ($file_rows as $row) {
+            $total = 0;
+            $list_txt_file = '/home/debian/www/upload/previewpool/'.$row->uid.'/'.$row->id.'/List.txt';
+            if (remote_file_exists($list_txt_file)) {
+                $list_txt = file_get_contents($list_txt_file);
+                preg_match('/FileIndex: (.*+)/i', $list_txt, $matches);
+                $pics = explode('|', isset($matches[1]) ? $matches[1] : '');
+                $total = count($pics);
+            }
             $data['file_rows'][] = [
                 'id' => $row->id,
                 'name' => $row->file_name,
                 'fileURL' => '',
                 'convertStatus' => 1,
-                'frontCoverUrl' => '',
+                'frontCoverUrl' => 'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/1',
                 'fileSize' => $row->file_size,
                 'createdAt' => date('Y-m-d H:i:s',$row->addtime),
-                'previewURL' => 'http://lubo.iemaker.cn/api/source/getPreviewImage/'.$row->id.'/1',
+                'previewURL' => '',
+                'total' => $total,
                 'content' => $row->intro,
             ];
         }

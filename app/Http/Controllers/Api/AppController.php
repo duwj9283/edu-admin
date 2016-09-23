@@ -7,7 +7,6 @@ use App\Models\File;
 use App\Libraries\Token;
 use App\Libraries\Unzip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 class AppController extends Controller
 {
     protected $user_id;
@@ -48,10 +47,13 @@ class AppController extends Controller
         $password = strval($request->input('password'));
         $user = WebUser::where('username', $username)->first();
         if (empty($user)) {
-            return $this->err('用户不存在');
+            return $this->err('无效的用户');
         }
-        if (!Hash::check($password, $user->password)) {
-            return $this->err('密码错误');
+        if (sha1(md5($password)."sdkjf*^#HRGF*")!=$user->password) {
+            return $this->error('密码错误');
+        }
+        if ($user->disable == 1) {
+            return $this->error('此用户已被管理员禁用');
         }
         $userInfo = WebUserInfo::where('uid',$user->uid)->first();
         $headpic = "http://lubo.iemaker.cn/img/frontend/camtasiastudio/default-avatar-small.png";
@@ -59,8 +61,6 @@ class AppController extends Controller
         {
             $headpic = "http://lubo.iemaker.cn/frontend/source/getFrontImageThumb/header/".$user->uid."/120/120";
         }
-        print_r($userInfo->toArray());
-        return;
         $token = new Token(['auth' => 'app']);
         $token_code = $token->set([
             'id' => $user->id,

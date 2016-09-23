@@ -111,11 +111,13 @@ class AppController extends Controller
         foreach ($file_rows as $row) {
             $total = 0;
             $list_txt_file = '/home/debian/www/upload/previewpool/'.$row->uid.'/'.$row->id.'/List.txt';
-            if (remote_file_exists($list_txt_file)) {
-                $list_txt = file_get_contents($list_txt_file);
-                preg_match('/FileIndex: (.*+)/i', $list_txt, $matches);
-                $pics = explode('|', isset($matches[1]) ? $matches[1] : '');
-                $total = count($pics);
+            if (file_exists($list_txt_file)) {
+                if($fp=fopen($list_txt_file,"a+"))
+                {
+                    $conn=fread($fp,filesize($list_txt_file));
+                    $images = explode('|',strstr($conn,"1.jpg"));
+                    $total = count($images);
+                }
             }
             $data['file_rows'][] = [
                 'id' => $row->id,
